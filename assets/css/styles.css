@@ -4699,3 +4699,34 @@ section {
     }
 }
 
+/* ========== AJUSTES MOBILE PARA FOTO DE PERFIL ========== */
+@media (max-width: 768px) {
+    .profile-photo-container {
+        top: 10px !important;
+        right: 10px !important;
+    }
+    
+    .profile-photo-container img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .profile-photo-container span {
+        width: 10px !important;
+        height: 10px !important;
+        bottom: 0px !important;
+        right: 0px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-photo-container {
+        top: 8px !important;
+        right: 8px !important;
+    }
+    
+    .profile-photo-container img {
+        width: 45px !important;
+        height: 45px !important;
+    }
+}
