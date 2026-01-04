@@ -1686,9 +1686,18 @@ input, textarea, select {
 @media (max-width: 768px) {
     #minerva-container {
         left: 10px !important;
+        right: auto !important; /* evita esticar o container (conflito com regras antigas) */
         top: auto !important;
         bottom: 100px !important;
         margin-top: 0 !important;
+        width: auto !important;
+    }
+
+    /* Melhor suporte a drag no mobile */
+    #minerva-container,
+    #minerva-container .minerva-owl {
+        touch-action: none;
+        -ms-touch-action: none;
     }
     
     .minerva-chat {
