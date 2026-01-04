@@ -660,7 +660,7 @@ class MinervaUltraAssistant {
             e.stopPropagation();
             const touch = e.touches[0];
             startDrag(touch.clientX, touch.clientY);
-        });
+        }, { passive: false });
 
         document.addEventListener('touchmove', (e) => {
             if (isDragging) {
@@ -668,7 +668,7 @@ class MinervaUltraAssistant {
                 const touch = e.touches[0];
                 drag(touch.clientX, touch.clientY);
             }
-        });
+        }, { passive: false });
 
         document.addEventListener('touchend', () => {
             if (isDragging) {
@@ -2789,7 +2789,8 @@ SEÇÃO: ${context.pageInfo?.currentSection || 'principal'}
 
 INSTRUÇÕES:
 - Responda em português, de forma objetiva e útil
-- Seja entusiasta mas conciso (máximo 150 palavras)
+- Mantenha postura profissional e centrada; evite elogios gratuitos/bajulação
+- Seja claro e conciso (máximo 150 palavras)
 - Se perguntarem sobre projetos, mencione os repositórios reais
 - Para navegação, oriente com base na página atual
 - Você é uma coruja sábia e prestativa`;
