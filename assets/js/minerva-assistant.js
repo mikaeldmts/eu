@@ -2103,12 +2103,12 @@ class MinervaUltraAssistant {
                 return this.getExistingGitHubData(cacheKey);
             }
 
-            // Fazer request segura com autenticação
+            // Fazer request segura (sem token no frontend; token deve ficar no servidor/Actions)
             this.addGitHubRateLimitRequest();
             const response = await fetch(url, {
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
-                    'Authorization': 'token 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'
+                    // 'Authorization': 'token ...'  // NÃO usar token no client
                 }
             });
             

@@ -135,6 +135,19 @@ function setCacheItem(key, value) {
     }
 }
 
+// Cache gerado via GitHub Actions (não expõe token no frontend)
+async function getGitHubActionsCache() {
+    try {
+        const res = await fetch('assets/data/github-cache.json', { cache: 'no-store' });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data || typeof data !== 'object') return null;
+        return data;
+    } catch {
+        return null;
+    }
+}
+
 // Função melhorada para fazer requisições ao GitHub com retry e fallback (usando sistema centralizado)
 async function makeGitHubRequest(url, useCache = true) {
     try {
@@ -197,6 +210,16 @@ async function makeGitHubRequest(url, useCache = true) {
 // Função para obter dados do GitHub com fallback robusto
 async function getGitHubData(type, forceRefresh = false) {
     try {
+        // 1) Prioridade: cache gerado via Actions
+        // (ideal para GitHub Pages: sem token no client, sem 401, sem secret scanning)
+        if (!forceRefresh) {
+            const actionsCache = await getGitHubActionsCache();
+            if (actionsCache) {
+                if (type === 'profile' && actionsCache.profile) return actionsCache.profile;
+                if (type === 'repos' && Array.isArray(actionsCache.repos)) return actionsCache.repos;
+            }
+        }
+
         if (type === 'profile') {
             // Verificar cache primeiro se não forçar refresh
             if (!forceRefresh) {

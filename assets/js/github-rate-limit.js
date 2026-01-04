@@ -10,12 +10,15 @@
 
 export const GITHUB_CONFIG = {
     // Rate Limiting (com token = 5000/hora, sem token = 60/hora)
-    MAX_REQUESTS_PER_HOUR: 5000,
+    // Observação: como este site roda no browser, NÃO guardamos token no repo.
+    // O cache pode ser gerado via GitHub Actions; no runtime usamos chamadas sem token.
+    MAX_REQUESTS_PER_HOUR: 60,
     RATE_LIMIT_WINDOW: 60 * 60 * 1000, // 1 hora em millisegundos
     RATE_LIMIT_KEY: 'github_unified_rate_limit',
     
     // Token de autenticação (aumenta limite de 60 para 5000 req/hora)
-    AUTH_TOKEN: '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',
+    // NUNCA commitar token aqui. Deixe vazio.
+    AUTH_TOKEN: '',
     
     // Cache
     CACHE_DURATION: 30 * 60 * 1000, // 30 minutos
@@ -405,4 +408,3 @@ export { GitHubRateLimit, GitHubCache, GitHubAPIManager };
 window.GitHubAPI = gitHubAPI;
 
 console.log('🟢 Sistema Centralizado de GitHub API inicializado');
-
