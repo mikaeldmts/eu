@@ -15,7 +15,7 @@ export const GITHUB_CONFIG = {
     RATE_LIMIT_KEY: 'github_unified_rate_limit',
     
     // Token de autenticação (aumenta limite de 60 para 5000 req/hora)
-    AUTH_TOKEN: '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',
+    AUTH_TOKEN: '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',
     
     // Cache
     CACHE_DURATION: 30 * 60 * 1000, // 30 minutos
@@ -405,3 +405,4 @@ export { GitHubRateLimit, GitHubCache, GitHubAPIManager };
 window.GitHubAPI = gitHubAPI;
 
 console.log('🟢 Sistema Centralizado de GitHub API inicializado');
+
