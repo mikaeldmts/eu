@@ -178,8 +178,6 @@
     <button id="theme-toggle" onclick="toggleTheme()">
         <i id="theme-icon" class="fab fa-battle-net"></i>
     </button>
-    <!-- Language Toggle Button -->
-    <button id="lang-toggle" title="Switch language" style="position: fixed; top: 70px; right: 20px; z-index: 1100; background: rgba(15,18,34,.7); color:#c8aa6e; border:1px solid rgba(200,170,110,.4); border-radius:8px; padding:.45rem .6rem; cursor:pointer;">EN</button>
 
     <!-- Menu Horizontal -->
     <nav id="menu-horizontal" class="horizontal-nav">
@@ -197,7 +195,6 @@
                 <li><a href="pages/interactive-projects.html"><i class="fas fa-project-diagram"></i><span data-i18n="nav.interactive">Interactive</span></a></li>
                 <li><a href="pages/galeria-midia.html"><i class="fas fa-images"></i><span data-i18n="nav.mediaGallery">Media Gallery</span></a></li>
                 <li><a href="pages/relatorios-galeria.html"><i class="fas fa-chart-line"></i><span data-i18n="nav.reports">Reports</span></a></li>
-                <li><a href="pages/games.html"><i class="fas fa-gamepad"></i><span data-i18n="nav.games">Games</span></a></li>
                 <li><a href="login.html" class="login-link"><i class="fas fa-user-alt"></i><span data-i18n="nav.login">Login</span></a></li>
             </ul>
         </div>
@@ -218,7 +215,6 @@
             <li><a href="pages/interactive-projects.html"><i class="fas fa-project-diagram" style="margin-right: 15px; color: var(--primary-color);"></i>Interactive Projects</a></li>
             <li><a href="pages/galeria-midia.html"><i class="fas fa-images" style="margin-right: 15px; color: var(--primary-color);"></i>Media Gallery</a></li>
             <li><a href="pages/relatorios-galeria.html"><i class="fas fa-chart-line" style="margin-right: 15px; color: var(--primary-color);"></i>Reports Gallery</a></li>
-            <li><a href="pages/games.html"><i class="fas fa-gamepad" style="margin-right: 15px; color: var(--primary-color);"></i>Games</a></li>
         </ul>
 
         <!-- Bonequinho Dançante -->
@@ -235,17 +231,16 @@
             <div class="hero-particles"></div>
         </div>
         
+        <!-- Foto de Perfil Discreta (canto superior direito, fora do fluxo) -->
+        <div style="position: absolute; top: 15px; right: 25px; z-index: 10;">
+            <div style="position: relative;">
+                <img id="profile-photo" src="https://i.ibb.co/BVvyXjRQ/Whats-App-Image-2025-01-29-at-14-52-511.jpg" alt="Mikael Ferreira" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(200,170,110,0.4); box-shadow: 0 2px 8px rgba(0,0,0,0.3); opacity: 0.9;">
+                <span style="position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #4ade80; border-radius: 50%; border: 2px solid #0f1222;"></span>
+            </div>
+        </div>
+        
         <div class="hero-content">
-            <!-- Foto de Perfil Integrada -->
             <div class="profile-section">
-                <div class="profile-image-container">
-                    <img id="profile-photo" src="https://i.ibb.co/BVvyXjRQ/Whats-App-Image-2025-01-29-at-14-52-511.jpg" alt="Foto de Mikael Ferreira" class="profile-image">
-                    <div class="profile-status">
-                        <i class="fas fa-circle"></i>
-                        <span>Disponível</span>
-                    </div>
-                </div>
-                
                 <div class="profile-info">
                     <h1 class="titulo-principal">
                         <span class="name-highlight">Mikael</span>
@@ -259,37 +254,40 @@
                         </span>
                     </h2>
                     
-                    <div class="tech-stack">
-                        <div class="tech-item">
-                            <i class="fab fa-html5"></i>
-                            <span>HTML</span>
+                    <!-- Áreas Profissionais - Cards Estilizados -->
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; max-width: 900px;">
+                        <!-- Card Cibersegurança -->
+                        <div style="flex: 1 1 220px; max-width: 280px; padding: 1.5rem 1.25rem; background: linear-gradient(145deg, rgba(20,25,45,0.9), rgba(15,18,34,0.95)); border: 1px solid rgba(200,170,110,0.25); border-radius: 16px; text-align: center; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgba(200,170,110,0.2), rgba(200,170,110,0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(200,170,110,0.3);">
+                                <i class="fas fa-shield-alt" style="font-size: 1.75rem; color: #c8aa6e;"></i>
+                            </div>
+                            <h3 style="color: #fff; font-size: 1rem; font-weight: 600; margin: 0; letter-spacing: 0.5px;">Engenharia de Cibersegurança</h3>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 0.5rem;">Proteção & Segurança Digital</p>
                         </div>
-                        <div class="tech-item">
-                            <i class="fab fa-css3-alt"></i>
-                            <span>CSS</span>
+                        
+                        <!-- Card Análise de Dados -->
+                        <div style="flex: 1 1 220px; max-width: 280px; padding: 1.5rem 1.25rem; background: linear-gradient(145deg, rgba(20,25,45,0.9), rgba(15,18,34,0.95)); border: 1px solid rgba(200,170,110,0.25); border-radius: 16px; text-align: center; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgba(200,170,110,0.2), rgba(200,170,110,0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(200,170,110,0.3);">
+                                <i class="fas fa-chart-bar" style="font-size: 1.75rem; color: #c8aa6e;"></i>
+                            </div>
+                            <h3 style="color: #fff; font-size: 1rem; font-weight: 600; margin: 0; letter-spacing: 0.5px;">Análise de Dados</h3>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 0.5rem;">Insights & Business Intelligence</p>
                         </div>
-                        <div class="tech-item">
-                            <i class="fab fa-js"></i>
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-react"></i>
-                            <span>React</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Data Analysis</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-python"></i>
-                            <span>Python</span>
+                        
+                        <!-- Card Desenvolvimento Web -->
+                        <div style="flex: 1 1 220px; max-width: 280px; padding: 1.5rem 1.25rem; background: linear-gradient(145deg, rgba(20,25,45,0.9), rgba(15,18,34,0.95)); border: 1px solid rgba(200,170,110,0.25); border-radius: 16px; text-align: center; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div style="width: 60px; height: 60px; margin: 0 auto 1rem; background: linear-gradient(135deg, rgba(200,170,110,0.2), rgba(200,170,110,0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(200,170,110,0.3);">
+                                <i class="fas fa-laptop-code" style="font-size: 1.75rem; color: #c8aa6e;"></i>
+                            </div>
+                            <h3 style="color: #fff; font-size: 1rem; font-weight: 600; margin: 0; letter-spacing: 0.5px;">Desenvolvimento Web</h3>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 0.5rem;">Full Stack & PWA</p>
                         </div>
                     </div>
                 </div>
             </div>
             
             <!-- Quick Actions -->
-            <div class="quick-actions">
+            <div class="quick-actions" style="margin-top: 2.5rem;">
                 <a href="pages/curriculum.html" class="action-btn primary">
                     <i class="fas fa-download"></i>
                     <span>See Curriculum</span>
@@ -305,8 +303,8 @@
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <a href="#professional-summary" class="scroll-indicator" aria-label="Ir para resumo profissional">
+        <!-- Scroll Indicator - Posicionado mais abaixo -->
+        <a href="#professional-summary" class="scroll-indicator" aria-label="Ir para resumo profissional" style="bottom: 15px;">
             <i class="fas fa-chevron-down"></i>
             <span>Explore</span>
         </a>
@@ -489,60 +487,6 @@
         </div>
     </section>
 
-    <!-- Seção de Games - Atalho Especial -->
-    <section id="games-section" class="games-highlight">
-        <div class="games-container">
-            <div class="games-content">
-                <div class="games-icon">
-                    🎮
-                </div>
-                <h2 class="games-title">Explore My Games</h2>
-                <p class="games-description">
-                    Discover interactive projects and games developed with JavaScript, HTML5 Canvas, and more!
-                </p>
-                <div class="games-features">
-                    <span class="feature-tag">🕹️ Fehuna: Códigos Perdidos</span>
-                    <span class="feature-tag">🎯 Interactive Games</span>
-                    <span class="feature-tag">⚡ HTML5 Canvas</span>
-                </div>
-                <a href="pages/games.html" class="games-cta-button">
-                    <span class="button-text">🚀 Play now</span>
-                    <div class="button-glow"></div>
-                </a>
-            </div>
-            <div class="games-visual">
-                <div class="game-preview">
-                    <div class="pixel-art">
-                        <div class="pixel-row">
-                            <div class="pixel green"></div>
-                            <div class="pixel green"></div>
-                            <div class="pixel blue"></div>
-                            <div class="pixel blue"></div>
-                        </div>
-                        <div class="pixel-row">
-                            <div class="pixel green"></div>
-                            <div class="pixel yellow"></div>
-                            <div class="pixel yellow"></div>
-                            <div class="pixel blue"></div>
-                        </div>
-                        <div class="pixel-row">
-                            <div class="pixel red"></div>
-                            <div class="pixel red"></div>
-                            <div class="pixel yellow"></div>
-                            <div class="pixel yellow"></div>
-                        </div>
-                        <div class="pixel-row">
-                            <div class="pixel red"></div>
-                            <div class="pixel purple"></div>
-                            <div class="pixel purple"></div>
-                            <div class="pixel orange"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Destaques Profissionais -->
     <section id="professional-features" class="media-section" aria-label="Destaques">
         <div class="container">
@@ -613,7 +557,7 @@
             <a href="https://discord.gg/fffen2a4" target="_blank" class="social-btn discord">
                 <i class="fab fa-discord"></i>
             </a>
-            <a href="https://github.com/mikaelfmts" target="_blank" class="social-btn github">
+            <a href="https://github.com/mikaeldmts" target="_blank" class="social-btn github">
                 <i class="fab fa-github"></i>
             </a>
         </div>
