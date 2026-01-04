@@ -3,10 +3,8 @@
 /* Container Principal - Movível como AssistiveTouch */
 #minerva-container {
     position: fixed;
-    top: calc(50% - 34px); /* ajustado para nova altura de ~68px */
-    left: 16px;
-    right: auto;
-    bottom: auto;
+    bottom: 120px; /* Acima do chat existente */
+    right: 20px;
     z-index: 1000;
     font-family: 'Marcellus', serif;
     user-select: none;
@@ -63,8 +61,8 @@
 
 /* Coruja Minerva - Ultra Imponente e Realista - Apenas Cabeça */
 .minerva-owl {
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
     cursor: pointer;
     position: relative;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -392,13 +390,13 @@
     transform: translateX(-50%);
     display: none;
     gap: 4px;
-    background: linear-gradient(135deg,
-        rgba(200, 170, 110, 0.92) 0%,
-        rgba(255, 207, 112, 0.92) 100%);
+    background: linear-gradient(135deg, 
+        rgba(0, 102, 255, 0.9) 0%, 
+        rgba(0, 150, 255, 0.9) 100%);
     padding: 8px 12px;
     border-radius: 20px;
-    border: 2px solid rgba(200, 170, 110, 0.35);
-    box-shadow: 0 4px 15px rgba(200, 170, 110, 0.35), 0 0 12px rgba(255, 207, 112, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
 }
 
 .thinking-dots::before {
@@ -411,48 +409,33 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid rgba(200, 170, 110, 0.92);
+    border-top: 8px solid rgba(0, 102, 255, 0.9);
 }
 
 .thinking-dots span {
     width: 8px;
     height: 8px;
-    background: linear-gradient(135deg,
-        #fff5da 0%,
-        #f0e6d2 100%);
+    background: linear-gradient(135deg, 
+        #ffffff 0%, 
+        #e0e0e0 100%);
     border-radius: 50%;
     display: inline-block;
     animation: advancedThinkingDots 1.6s ease-in-out infinite both;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 6px rgba(255, 207, 112, 0.35);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .thinking-dots span:nth-child(1) { animation-delay: -0.32s; }
 .thinking-dots span:nth-child(2) { animation-delay: -0.16s; }
 .thinking-dots span:nth-child(3) { animation-delay: 0s; }
 
-/* Animação das bolinhas de pensamento com pulso dourado */
-@keyframes advancedThinkingDots {
-    0%, 80%, 100% {
-        transform: translateY(0) scale(0.8);
-        filter: drop-shadow(0 0 0 rgba(200,170,110,0));
-        opacity: 0.85;
-    }
-    40% {
-        transform: translateY(-3px) scale(1);
-        filter: drop-shadow(0 0 8px rgba(255,207,112,0.6));
-        opacity: 1;
-    }
-}
-
-/* Chat Ultra Evoluído - Estilo Consistente com o Site - COMPACTO */
+/* Chat Ultra Evoluído - Estilo Consistente com o Site */
 .minerva-chat {
     position: fixed;
     bottom: 20px;
-    left: 20px;
-    right: auto;
-    width: 320px;
+    right: 20px;
+    width: 380px;
     max-width: calc(100vw - 40px);
-    height: 420px;
+    height: 500px;
     max-height: calc(100vh - 40px);
     background: var(--card-bg);
     backdrop-filter: blur(20px);
@@ -491,7 +474,7 @@
         var(--accent-color) 0%, 
         var(--secondary-color) 100%);
     border-bottom: 1px solid var(--primary-color);
-    padding: 12px 16px;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -807,7 +790,7 @@
 }
 
 .minerva-input-area {
-    padding: 12px 16px;
+    padding: 15px 20px;
     background: var(--accent-color);
     border-top: 1px solid var(--primary-color);
     border-radius: 0 0 13px 13px;
@@ -833,7 +816,7 @@
     flex: 1;
     background: none;
     border: none;
-    padding: 10px 12px;
+    padding: 12px 15px;
     color: var(--text-primary);
     font-size: 0.9rem;
     outline: none;
@@ -1245,15 +1228,13 @@ body.modal-open {
 /* Responsividade Mobile */
 @media (max-width: 768px) {
     #minerva-container {
-        top: calc(50% - 32px); /* central para ~64-68px */
-        left: 12px;
-        right: auto;
-        bottom: auto;
+        bottom: 20px;
+        right: 15px;
     }
     
     .minerva-owl {
-        width: 64px;
-        height: 64px;
+        width: 70px;
+        height: 70px;
     }
     
     .minerva-cta {
@@ -1263,13 +1244,12 @@ body.modal-open {
     }
     
     .minerva-chat {
-        width: calc(100vw - 24px);
-        height: calc(100vh - 130px);
-        left: 10px;
-        right: auto;
+        width: calc(100vw - 20px);
+        height: calc(100vh - 120px);
+        right: 10px;
         bottom: 10px;
         border-radius: 12px;
-        max-height: calc(100vh - 130px);
+        max-height: calc(100vh - 120px);
     }
     
     /* Estilos específicos para modal no mobile */
@@ -1393,8 +1373,7 @@ body.modal-open {
 @media (max-width: 480px) {
     .minerva-chat {
         width: calc(100vw - 10px);
-        left: 5px;
-        right: auto;
+        right: 5px;
         bottom: 5px;
     }
     
@@ -1662,36 +1641,4 @@ body.modal-open {
 
 .minerva-cta.pulse {
     animation: ctaPulse 2s ease-in-out infinite;
-}
-
-/* Botão de toggle da Minerva - acompanha a posição da Minerva */
-.minerva-toggle-btn {
-    position: fixed;
-    width: 32px;
-    height: 32px;
-    background: rgba(15, 18, 34, 0.9);
-    border: 2px solid rgba(200, 170, 110, 0.6);
-    border-radius: 50%;
-    color: #c8aa6e;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1003;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.minerva-toggle-btn:hover {
-    background: rgba(15, 18, 34, 1);
-    border-color: #c8aa6e;
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(200, 170, 110, 0.3);
-}
-
-/* Container com transição suave para esconder */
-#minerva-container {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
