@@ -1,0 +1,42 @@
+name: Update GitHub cache
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-cache
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build github cache
+        run: node scripts/update-github-cache.mjs
+        env:
+          # suporta tanto Secret quanto Variable
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_API || vars.GIT_HUB_API }}
+          GITHUB_USER: mikaeldmts
+
+      - name: Commit changes (if any)
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/data/github-cache.json
+          git commit -m "chore: update github cache"
+          git push
