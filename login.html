@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Portfolio</title>
+    <title>Login do Mikael - Portfolio</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,26 +21,7 @@
     <link rel="stylesheet" href="assets/css/minerva-styles.css">
     
     <style>
-        /* Importando fontes retrô estilo Pac-Man */
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        
-        :root {
-            /* Cores retrô estilo Pac-Man */
-            --primary-color: #FFD700; /* Amarelo Pac-Man */
-            --secondary-color: #FFA500; /* Laranja complementar */
-            --accent-color: #000000; /* Preto */
-            --text-primary: #FFFFFF; /* Branco */
-            --text-secondary: #CCCCCC; /* Cinza claro */
-            --background-primary: #000000; /* Fundo preto */
-            --background-secondary: #1a1a1a; /* Fundo escuro */
-            --border-color: #FFD700; /* Borda amarela */
-            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.8);
-            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.9);
-            --shadow-heavy: 0 8px 16px rgba(0, 0, 0, 1);
-            --gradient-primary: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* Gradiente amarelo */
-            --card-bg: rgba(26, 26, 26, 0.95); /* Fundo de card escuro */
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
         
         /* Estilos para o sistema de partículas */
         .particles-container {
@@ -56,119 +37,86 @@
 
         .particle {
             position: absolute;
-            background-color: var(--primary-color);
+            background-color: #c8aa6e;
             border-radius: 50%;
             opacity: 0.5;
             pointer-events: none;
-            box-shadow: 0 0 10px var(--primary-color);
+            box-shadow: 0 0 10px #c8aa6e;
             filter: blur(1px);
         }
 
         .particle.golden {
-            background-color: #FFD700;
-            box-shadow: 0 0 12px #FFD700;
+            background-color: #c8aa6e;
+            box-shadow: 0 0 12px #c8aa6e;
         }
 
         .particle.light {
-            background-color: #FFA500;
-            box-shadow: 0 0 8px #FFA500;
+            background-color: #f0e6d2;
+            box-shadow: 0 0 8px #f0e6d2;
             opacity: 0.4;
         }
 
         .particle.dark {
-            background-color: #1a1a1a;
-            box-shadow: 0 0 15px #1a1a1a;
+            background-color: #0a1428;
+            box-shadow: 0 0 15px #0a1428;
             opacity: 0.2;
         }
         
         body {
-            font-family: 'VT323', monospace;
-            background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary));
+            font-family: 'Marcellus', serif;
+            background-color: #010a13;
+            background-image: url('https://lolstatic-a.akamaihd.net/frontpage/apps/prod/rg-league-display-2017/pt_BR/cb24025fade09e3f965776440d9334d440b05af4/assets/img/content/splash/content-original-championillustrations-group-slashes.jpg');
             background-size: cover;
             background-position: center;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-primary);
-            font-size: 1.2rem;
+            color: #f0e6d2;
         }
         
         .login-container {
             animation: fadeIn 0.5s ease-in-out;
-            background: var(--card-bg);
-            border: 3px solid var(--primary-color);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), var(--shadow-heavy);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 20, 40, 0.9);
+            border: 2px solid #c8aa6e;
+            box-shadow: 0 0 20px rgba(200, 170, 110, 0.4);
         }
         
         h1 {
-            color: var(--primary-color);
+            color: #c8aa6e;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 2px 2px 0 rgba(0,0,0,0.8);
-        }
-        
-        label {
-            color: var(--text-primary) !important;
-            font-weight: 600;
+            letter-spacing: 1px;
         }
         
         input {
-            background-color: var(--card-bg) !important;
-            color: var(--text-primary) !important;
-            border: 2px solid var(--primary-color) !important;
-            font-family: 'VT323', monospace;
-            font-size: 1.1rem;
+            background-color: #1e2328 !important;
+            color: #f0e6d2 !important;
+            border: 1px solid #c8aa6e !important;
         }
         
         input:focus {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6) !important;
-            border-color: var(--secondary-color) !important;
-            outline: none;
+            box-shadow: 0 0 10px rgba(200, 170, 110, 0.5) !important;
+            border-color: #c8aa6e !important;
         }
         
         button[type="submit"] {
-            background: var(--gradient-primary) !important;
-            color: var(--accent-color) !important;
-            border: 2px solid var(--primary-color) !important;
+            background: linear-gradient(to bottom, #1e2328, #433d2b) !important;
+            color: #c8aa6e !important;
+            border: 2px solid #c8aa6e !important;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'VT323', monospace;
-            font-size: 1.2rem;
-            font-weight: 600;
-            box-shadow: var(--shadow-medium);
+            letter-spacing: 1px;
         }
         
         button[type="submit"]:hover {
-            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%) !important;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), var(--shadow-heavy);
-            transform: translateY(-2px);
+            background: linear-gradient(to bottom, #2f3640, #785a28) !important;
+            box-shadow: 0 0 15px rgba(200, 170, 110, 0.6) !important;
         }
         
         a {
-            color: var(--primary-color) !important;
+            color: #c8aa6e !important;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.9rem;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-        }
-        
-        a:hover {
-            color: var(--secondary-color) !important;
-            text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
-        }
-        
-        #error-message {
-            background: rgba(255, 0, 0, 0.2) !important;
-            border: 2px solid #ff4444 !important;
-            color: #ff6666 !important;
-        }
-        
-        .text-gray-500 {
-            color: var(--text-secondary) !important;
+            font-size: 0.8rem;
         }
         
         @keyframes fadeIn {
@@ -182,7 +130,7 @@
     <div class="particles-container"></div>
     
     <div class="login-container bg-white p-8 rounded-lg shadow-lg max-w-md w-full"><h1 class="text-2xl font-bold mb-6 text-center">
-            <i class="fas fa-ghost mr-2"></i>Admin
+            <i class="fas fa-chess-king mr-2"></i>Portal do Invocador
         </h1>
         
         <div id="error-message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 hidden"></div>
@@ -199,12 +147,12 @@
             </div>
               <div class="flex items-center justify-between">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                    <i class="fas fa-gamepad mr-2"></i>Entrar
+                    <i class="fas fa-crown mr-2"></i>Invocar
                 </button>
-                <a href="index.html" class="text-sm hover:underline">Voltar ao Site</a>
+                <a href="index.html" class="text-sm hover:underline">Retornar ao Rift</a>
             </div>
         </form>        <div class="mt-6 text-center text-sm text-gray-500">
-            <p>Acesso restrito ao ferrera.js</p>
+            <p>Acesso restrito ao Mikael</p>
         </div>
     </div>    <!-- Firebase -->
     <script type="module">        // Importar o Firebase
@@ -361,4 +309,3 @@
     <script type="module" src="assets/js/minerva-assistant.js"></script>
 </body>
 </html>
-

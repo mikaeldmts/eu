@@ -2,13 +2,13 @@
 <html lang="pt-br">
 <head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do ferrera.js - Portfolio</title>
+    <title>Painel do Mikael - Portfolio</title>
     
     <!-- PWA Support -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0066ff">
     <meta name="apple-mobile-web-app-capable" content="yes">    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ferrera.js Portfolio">
+    <meta name="apple-mobile-web-app-title" content="Mikael Portfolio">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     
     <!-- Tailwind CSS -->
@@ -26,27 +26,17 @@
       <!-- Scripts -->
     <script type="module" src="assets/js/auth.js"></script>
     <script type="module" src="assets/js/admin.js"></script><style>
-        /* Importando fontes retrô estilo Pac-Man */
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
         
         :root {
-            /* Cores retrô estilo Pac-Man */
-            --primary-color: #FFD700; /* Amarelo Pac-Man */
-            --secondary-color: #FFA500; /* Laranja complementar */
-            --accent-color: #000000; /* Preto */
-            --text-primary: #FFFFFF; /* Branco */
-            --text-secondary: #CCCCCC; /* Cinza claro */
-            --background-primary: #000000; /* Fundo preto */
-            --background-secondary: #1a1a1a; /* Fundo escuro */
-            --border-color: #FFD700; /* Borda amarela */
-            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.8);
-            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.9);
-            --shadow-heavy: 0 8px 16px rgba(0, 0, 0, 1);
-            --gradient-primary: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* Gradiente amarelo */
-            --gradient-accent: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* Gradiente dourado */
-            --card-bg: rgba(26, 26, 26, 0.95); /* Fundo de card escuro */
-            --nav-bg: rgba(0, 0, 0, 0.98); /* Fundo de navegação preto */
+            --primary-color: #c8aa6e;
+            --secondary-color: #0a1428;
+            --accent-color: #1e2328;
+            --text-primary: #f0e6d2;
+            --text-secondary: #a09b8c;
+            --background-primary: #010a13;
+            --background-secondary: #0a1428;
+            --border-color: #3c3c41;
         }
         
         /* Estilos para o sistema de partículas */
@@ -72,45 +62,45 @@
         }
 
         .particle.golden {
-            background-color: #FFD700;
-            box-shadow: 0 0 12px #FFD700;
+            background-color: #c8aa6e;
+            box-shadow: 0 0 12px #c8aa6e;
         }
 
         .particle.light {
-            background-color: #FFA500;
-            box-shadow: 0 0 8px #FFA500;
+            background-color: #f0e6d2;
+            box-shadow: 0 0 8px #f0e6d2;
             opacity: 0.4;
         }
 
         .particle.dark {
-            background-color: #1a1a1a;
-            box-shadow: 0 0 15px #1a1a1a;
+            background-color: #0a1428;
+            box-shadow: 0 0 15px #0a1428;
             opacity: 0.2;
         }
         
         body {
-            font-family: 'VT323', monospace;
+            font-family: 'Marcellus', serif;
             background-color: var(--background-primary);
-            background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary));
+            background-image: url('https://lolstatic-a.akamaihd.net/frontpage/apps/prod/clash-2018/pt_BR/c9bf09f08bfd566d9b36445f5562432202cf0203/assets/img/patterns/golden-noise.png'),
+                linear-gradient(to bottom, var(--background-primary), var(--background-secondary));
+            background-blend-mode: overlay;
+            background-size: 500px, cover;
             color: var(--text-primary);
-            font-size: 1.2rem;
         }
         
         .bg-blue-600 {
-            background: var(--gradient-primary) !important;
-            color: var(--accent-color) !important;
-            border: 2px solid var(--primary-color) !important;
-            box-shadow: var(--shadow-medium) !important;
+            background: linear-gradient(to bottom, #1e2328, #433d2b) !important;
+            color: var(--primary-color) !important;
+            border: 1px solid var(--primary-color) !important;
         }
         
         .text-white {
-            color: var(--text-primary) !important;
+            color: var(--primary-color) !important;
         }
         
         .bg-white {
-            background-color: var(--card-bg) !important;
-            border: 2px solid var(--primary-color) !important;
-            box-shadow: var(--shadow-medium) !important;
+            background-color: var(--accent-color) !important;
+            border: 1px solid var(--primary-color) !important;
         }
         
         .text-gray-800, .text-gray-700 {
@@ -126,14 +116,11 @@
         }
         
         .bg-gray-300 {
-            background-color: var(--background-secondary) !important;
-            border: 1px solid var(--primary-color) !important;
+            background-color: var(--accent-color) !important;
         }
         
         .active.bg-blue-500 {
-            background: var(--gradient-primary) !important;
-            color: var(--accent-color) !important;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+            background: linear-gradient(to bottom, #1e2328, #785a28) !important;
         }
         
         /* Estilos específicos para PWA */
@@ -156,13 +143,12 @@
         
         .chat-card {
             transition: all 0.3s ease;
-            border: 2px solid var(--primary-color);
-            background: var(--card-bg);
-            border-radius: 8px;
+            border: 1px solid var(--primary-color);
+            background: var(--accent-color);
+            border-radius: 12px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-light);
         }
         
         .chat-card::before {
@@ -172,7 +158,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--gradient-primary);
+            background: linear-gradient(90deg, var(--primary-color), #785a28);
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
@@ -183,14 +169,14 @@
         
         .chat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-            border-color: var(--secondary-color);
+            box-shadow: 0 8px 25px rgba(200, 170, 110, 0.4);
+            border-color: #785a28;
         }
         
         .chat-card.active {
-            background: rgba(255, 215, 0, 0.1);
+            background: linear-gradient(135deg, rgba(200, 170, 110, 0.1), rgba(120, 90, 40, 0.1));
             border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 20px rgba(200, 170, 110, 0.5);
         }
         
         .message-bubble {
@@ -206,15 +192,15 @@
         
         .user-message {
             margin-left: auto;
-            background: var(--gradient-primary);
-            color: var(--accent-color);
+            background: linear-gradient(135deg, var(--primary-color), #785a28);
+            color: var(--background-primary);
             border-bottom-right-radius: 6px;
         }
         
         .admin-message {
             margin-right: auto;
-            background: var(--card-bg);
-            border: 1px solid var(--primary-color);
+            background: rgba(30, 35, 40, 0.9);
+            border: 1px solid rgba(200, 170, 110, 0.3);
             border-bottom-left-radius: 6px;
         }
         
@@ -229,37 +215,36 @@
         .user-message::after {
             right: -8px;
             border: 8px solid transparent;
-            border-left-color: var(--secondary-color);
+            border-left-color: #785a28;
             border-bottom: none;
         }
         
         .admin-message::after {
             left: -8px;
             border: 8px solid transparent;
-            border-right-color: var(--card-bg);
+            border-right-color: rgba(30, 35, 40, 0.9);
             border-bottom: none;
         }
         
         .chat-header {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, var(--accent-color), rgba(30, 35, 40, 0.8));
             border-bottom: 2px solid var(--primary-color);
-            border-radius: 8px 8px 0 0;
+            border-radius: 12px 12px 0 0;
             padding: 20px;
             margin: -24px -24px 20px -24px;
-            box-shadow: var(--shadow-light);
         }
         
         .messages-container {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
+            background: rgba(1, 10, 19, 0.6);
+            border: 1px solid rgba(200, 170, 110, 0.2);
+            border-radius: 12px;
             backdrop-filter: blur(10px);
         }
         
         .chat-input-area {
-            background: var(--card-bg);
-            border-top: 2px solid var(--primary-color);
-            border-radius: 0 0 8px 8px;
+            background: rgba(30, 35, 40, 0.8);
+            border-top: 1px solid var(--primary-color);
+            border-radius: 0 0 12px 12px;
             padding: 16px;
             margin: 16px -24px -24px -24px;
         }
@@ -271,26 +256,12 @@
         button {
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: 'VT323', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
         }
         
-        h1, h2, h3 {
+        h2, h3 {
             color: var(--primary-color);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        h2 {
-            font-size: 0.8rem;
-        }
-        
-        h3 {
-            font-size: 0.7rem;
+            letter-spacing: 1px;
         }
           @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -433,7 +404,7 @@
         }
         
         .messages-container::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-color);
+            background: #785a28;
         }
         
         /* Estados de carregamento melhorados */
@@ -516,21 +487,21 @@
         }
         
         .status-online {
-            background: rgba(255, 215, 0, 0.2);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
         
         .status-offline {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff4444;
-            border: 1px solid #ff4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
         .status-maintenance {
-            background: rgba(255, 165, 0, 0.2);
-            color: var(--secondary-color);
-            border: 1px solid var(--secondary-color);
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
         
         /* Fade-in para elementos */
@@ -561,17 +532,16 @@
     <!-- Container de partículas -->
     <div class="particles-container"></div>
       <!-- Header -->
-    <header class="bg-blue-600 text-white shadow-lg" style="background: var(--gradient-primary) !important; border-bottom: 3px solid var(--primary-color); box-shadow: 0 4px 0 rgba(255, 215, 0, 0.3);">
+    <header class="bg-blue-600 text-white shadow-lg">
         <div class="container mx-auto px-4 py-4 md:py-6">
             <div class="flex items-center justify-between flex-wrap gap-4">
-                <h1 class="text-xl md:text-2xl font-bold" style="color: var(--accent-color) !important; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);">
-                    <i class="fas fa-ghost mr-2" style="color: var(--accent-color);"></i>
-                    <span class="hidden sm:inline">Painel Admin Pac-Man</span>
-                    <span class="sm:hidden">Admin</span>
+                <h1 class="text-xl md:text-2xl font-bold">
+                    <i class="fas fa-chess-king mr-2"></i>
+                    <span class="hidden sm:inline">Câmara do Invocador</span>                    <span class="sm:hidden">Mikael</span>
                 </h1>
                 <div class="flex items-center space-x-2 md:space-x-4">
-                    <span class="text-xs md:text-sm hidden md:block" style="color: var(--accent-color) !important;">Carregando usuário...</span>
-                    <a href="index.html" class="px-2 md:px-4 py-2 rounded transition text-sm" style="background: var(--accent-color) !important; color: var(--primary-color) !important; border: 2px solid var(--primary-color); font-weight: bold;">
+                    <span class="text-xs md:text-sm hidden md:block">Carregando usuário...</span>
+                    <a href="index.html" class="bg-blue-700 hover:bg-blue-800 px-2 md:px-4 py-2 rounded transition text-sm">
                         <i class="fas fa-home mr-1 md:mr-2"></i>
                         <span class="hidden sm:inline">Voltar ao Site</span>
                         <span class="sm:hidden">Home</span>
@@ -586,25 +556,25 @@
     <div class="container mx-auto px-4 py-8">        <!-- Navigation Tabs -->
         <div class="mb-8">
             <nav class="flex flex-wrap space-x-2 md:space-x-4">
-                <button onclick="showSection('chat')" id="tab-chat" class="tab-button active bg-blue-500 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);">
-                    <i class="fas fa-comments mr-2 hidden md:inline"></i>Chats
+                <button onclick="showSection('chat')" id="tab-chat" class="tab-button active bg-blue-500 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
+                    <i class="fas fa-scroll mr-2 hidden md:inline"></i>Pergaminhos
                 </button>
-                <button onclick="showSection('uploads')" id="tab-uploads" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
-                    <i class="fas fa-upload mr-2 hidden md:inline"></i>Uploads
+                <button onclick="showSection('uploads')" id="tab-uploads" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
+                    <i class="fas fa-gem mr-2 hidden md:inline"></i>Artefatos
                 </button>
-                <button onclick="showSection('users')" id="tab-users" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
-                    <i class="fas fa-users mr-2 hidden md:inline"></i>Usuários
+                <button onclick="showSection('users')" id="tab-users" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
+                    <i class="fas fa-users mr-2 hidden md:inline"></i>Invocadores
                 </button>
-                <button onclick="showSection('certificates')" id="tab-certificates" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
+                <button onclick="showSection('certificates')" id="tab-certificates" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
                     <i class="fas fa-certificate mr-2 hidden md:inline"></i>Certificados
-                </button>                <button onclick="showSection('maintenance')" id="tab-maintenance" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
+                </button>                <button onclick="showSection('maintenance')" id="tab-maintenance" class="tab-button bg-gray-300 text-gray-700 px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
                     <i class="fas fa-tools mr-2 hidden md:inline"></i>Manutenção
-                </button>                <button onclick="window.location.href='curriculo-generator.html'" class="tab-button bg-purple-500 hover:bg-purple-600 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 2px solid var(--primary-color);">
+                </button>                <button onclick="window.location.href='curriculo-generator.html'" class="tab-button bg-purple-500 hover:bg-purple-600 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
                     <i class="fas fa-file-alt mr-2 hidden md:inline"></i>Gerador CV
-                </button>                <button onclick="window.location.href='midia-admin.html'" class="tab-button bg-yellow-600 hover:bg-yellow-700 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 2px solid var(--primary-color);">
+                </button>                <button onclick="window.location.href='midia-admin.html'" class="tab-button bg-yellow-600 hover:bg-yellow-700 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
                     <i class="fas fa-images mr-2 hidden md:inline"></i>Galeria
                 </button>
-                <button onclick="window.location.href='relatorios-admin.html'" class="tab-button bg-green-600 hover:bg-green-700 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 2px solid var(--primary-color);">
+                <button onclick="window.location.href='relatorios-admin.html'" class="tab-button bg-green-600 hover:bg-green-700 text-white px-4 md:px-6 py-2 rounded-lg transition flex-1 md:flex-none">
                     <i class="fas fa-chart-line mr-2 hidden md:inline"></i>Relatórios
                 </button>
             </nav>
@@ -615,10 +585,10 @@
                 <div class="lg:col-span-1 order-2 lg:order-1">
                     <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg md:text-xl font-semibold text-gray-800" style="color: var(--primary-color) !important;">
-                                <i class="fas fa-comments mr-2"></i>Chats
+                            <h2 class="text-lg md:text-xl font-semibold text-gray-800">
+                                <i class="fas fa-scroll mr-2"></i>Pergaminhos
                             </h2>
-                            <button onclick="refreshChats()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                            <button onclick="refreshChats()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                         </div>
@@ -688,15 +658,15 @@
                                     <!-- Barra de ações -->
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center space-x-2">
-                                            <button onclick="openResponseModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Responder mensagem" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                                            <button onclick="openResponseModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Responder mensagem">
                                                 <i class="fas fa-reply mr-1 md:mr-2"></i>
                                                 <span class="hidden md:inline">Responder</span>
                                             </button>
-                                            <button onclick="markAsRead()" class="bg-green-500 hover:bg-green-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Marcar como lido" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                                            <button onclick="markAsRead()" class="bg-green-500 hover:bg-green-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Marcar como lido">
                                                 <i class="fas fa-check mr-1 md:mr-2"></i>
                                                 <span class="hidden md:inline">Lido</span>
                                             </button>
-                                            <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Marcar importante" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                                            <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded transition text-sm tooltip" data-tooltip="Marcar importante">
                                                 <i class="fas fa-star mr-1 md:mr-2"></i>
                                                 <span class="hidden md:inline">Importante</span>
                                             </button>
@@ -709,13 +679,13 @@
                                     
                                     <!-- Respostas rápidas -->
                                     <div class="hidden md:flex flex-wrap gap-2" id="quick-responses">
-                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Olá! Obrigado pela sua mensagem.')" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color);">
+                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Olá! Obrigado pela sua mensagem.')">
                                             Saudação
                                         </button>
-                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Retornarei em breve com uma resposta.')" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color);">
+                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Retornarei em breve com uma resposta.')">
                                             Aguardar
                                         </button>
-                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Obrigado pelo contato!')" style="background: var(--background-secondary) !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color);">
+                                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs transition" onclick="insertQuickResponse('Obrigado pelo contato!')">
                                             Agradecimento
                                         </button>
                                     </div>
@@ -728,13 +698,13 @@
         </div>        <!-- Uploads Section -->
         <div id="section-uploads" class="section hidden">
             <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-                <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4" style="color: var(--primary-color) !important;">
-                    <i class="fas fa-upload mr-2"></i>Uploads
+                <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-gem mr-2"></i>Forja de Artefatos
                 </h2>
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4" style="background: rgba(255, 215, 0, 0.1) !important; border: 2px solid var(--primary-color) !important;">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <div class="flex items-center">
-                        <i class="fas fa-info-circle text-blue-500 mr-3" style="color: var(--primary-color) !important;"></i>
-                        <p class="text-blue-700 text-sm" style="color: var(--text-primary) !important;">Uploads em construção... Em breve você poderá gerenciar uploads aqui.</p>
+                        <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+                        <p class="text-blue-700 text-sm">Forja em construção... Em breve você poderá gerenciar uploads aqui.</p>
                     </div>
                 </div>
             </div>
@@ -743,13 +713,13 @@
         <!-- Users Section -->
         <div id="section-users" class="section hidden">
             <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-                <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4" style="color: var(--primary-color) !important;">
-                    <i class="fas fa-users mr-2"></i>Usuários
+                <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-users mr-2"></i>Registro de Invocadores
                 </h2>
-                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4" style="background: rgba(255, 215, 0, 0.1) !important; border: 2px solid var(--primary-color) !important;">
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
                     <div class="flex items-center">
-                        <i class="fas fa-info-circle text-purple-500 mr-3" style="color: var(--primary-color) !important;"></i>
-                        <p class="text-purple-700 text-sm" style="color: var(--text-primary) !important;">Usuários em construção... Em breve você poderá gerenciar usuários aqui.</p>
+                        <i class="fas fa-info-circle text-purple-500 mr-3"></i>
+                        <p class="text-purple-700 text-sm">Academia de Invocadores em construção... Em breve você poderá gerenciar usuários aqui.</p>
                     </div>
                 </div>
             </div>
@@ -757,10 +727,10 @@
         <div id="section-certificates" class="section hidden">
             <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-                    <h2 class="text-lg md:text-xl font-semibold text-gray-800" style="color: var(--primary-color) !important;">
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800">
                         <i class="fas fa-certificate mr-2"></i>Gerenciar Certificados
                     </h2>
-                    <button onclick="openCertificateModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-4 py-2 rounded transition text-sm" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                    <button onclick="openCertificateModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-4 py-2 rounded transition text-sm">
                         <i class="fas fa-plus mr-1 md:mr-2"></i>
                         <span class="hidden sm:inline">Novo Certificado</span>
                         <span class="sm:hidden">Novo</span>
@@ -785,18 +755,18 @@
         <div id="section-maintenance" class="section hidden">
             <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-                    <h2 class="text-lg md:text-xl font-semibold text-gray-800" style="color: var(--primary-color) !important;">
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800">
                         <i class="fas fa-tools mr-2"></i>Controle de Manutenção
                     </h2>
                 </div>
                 
-                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6" style="background: rgba(255, 215, 0, 0.1) !important; border: 2px solid var(--primary-color) !important;">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                     <div class="flex flex-col sm:flex-row">
-                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3 mt-1 mb-2 sm:mb-0" style="color: var(--secondary-color) !important;"></i>
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3 mt-1 mb-2 sm:mb-0"></i>
                         <div>
-                            <h3 class="text-yellow-800 font-medium" style="color: var(--primary-color) !important;">Atenção</h3>                            <p class="text-yellow-700 text-sm mt-1" style="color: var(--text-primary) !important;">
+                            <h3 class="text-yellow-800 font-medium">Atenção</h3>                            <p class="text-yellow-700 text-sm mt-1">
                                 Quando ativado, o modo manutenção exibirá uma página especial para todos os visitantes.
-                                O login e painel de controle do ferrera.js continuarão funcionando normalmente.
+                                O login e painel de controle do Mikael continuarão funcionando normalmente.
                             </p>
                         </div>
                     </div>
@@ -812,7 +782,7 @@
                             <span id="maintenance-status-text" class="font-medium text-green-600 text-sm">
                                 <i class="fas fa-check-circle mr-1"></i>Site Online
                             </span>
-                            <button id="maintenance-toggle" onclick="toggleMaintenanceWithFallback()" class="bg-green-500 hover:bg-green-600 text-white px-4 md:px-6 py-2 rounded-lg transition text-sm w-full sm:w-auto" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                            <button id="maintenance-toggle" onclick="toggleMaintenanceWithFallback()" class="bg-green-500 hover:bg-green-600 text-white px-4 md:px-6 py-2 rounded-lg transition text-sm w-full sm:w-auto">
                                 <i class="fas fa-power-off mr-2"></i>Ativar Manutenção
                             </button>
                         </div>
@@ -822,15 +792,15 @@
                         <div class="space-y-4">
                             <div>
                                 <label for="maintenance-title" class="block text-sm font-medium text-gray-700 mb-2">Título:</label>
-                                <input type="text" id="maintenance-title" value="Site em Manutenção" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                                <input type="text" id="maintenance-title" value="Site em Manutenção" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                             </div>
                             <div>
                                 <label for="maintenance-message" class="block text-sm font-medium text-gray-700 mb-2">Mensagem:</label>
-                                <textarea id="maintenance-message" rows="3" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">Estamos realizando melhorias no site. Voltamos em breve!</textarea>
+                                <textarea id="maintenance-message" rows="3" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none">Estamos realizando melhorias no site. Voltamos em breve!</textarea>
                             </div>
                             <div>
                                 <label for="maintenance-eta" class="block text-sm font-medium text-gray-700 mb-2">Previsão de Retorno (opcional):</label>
-                                <input type="text" id="maintenance-eta" placeholder="Ex: em 2 horas, às 15:00..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                                <input type="text" id="maintenance-eta" placeholder="Ex: em 2 horas, às 15:00..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                             </div>
                         </div>
                     </div>
@@ -846,20 +816,20 @@
                             <!-- Lista de páginas será carregada aqui -->
                         </div>
                         
-                        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg" style="background: rgba(255, 215, 0, 0.1) !important; border: 2px solid var(--primary-color) !important;">
+                        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                             <div class="flex items-start">
-                                <i class="fas fa-info-circle text-blue-500 mr-2 mt-0.5" style="color: var(--primary-color) !important;"></i>
+                                <i class="fas fa-info-circle text-blue-500 mr-2 mt-0.5"></i>
                                 <div>
-                                    <p class="text-blue-700 text-sm" style="color: var(--text-primary) !important;">
+                                    <p class="text-blue-700 text-sm">
                                         <strong>Páginas offline</strong> exibirão a mensagem: <br>
-                                        "ferrera.js limitou o acesso a esta página por enquanto. Melhorias estão sendo implementadas."
+                                        "Mikael limitou o acesso a esta página por enquanto. Melhorias estão sendo implementadas."
                                     </p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="mt-4 flex justify-end">
-                            <button onclick="savePageSettings()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                            <button onclick="savePageSettings()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm">
                                 <i class="fas fa-save mr-2"></i>Salvar Configurações
                             </button>
                         </div>
@@ -883,19 +853,19 @@
                 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Mensagem do usuário:</label>
-                    <div id="original-message" class="bg-gray-100 p-3 rounded-lg text-sm max-h-32 overflow-y-auto" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 1px solid var(--primary-color);"></div>
+                    <div id="original-message" class="bg-gray-100 p-3 rounded-lg text-sm max-h-32 overflow-y-auto"></div>
                 </div>
                 
                 <div class="mb-4">
                     <label for="response-text" class="block text-sm font-medium text-gray-700 mb-2">Sua resposta:</label>
-                    <textarea id="response-text" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Digite sua resposta..." style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;"></textarea>
+                    <textarea id="response-text" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Digite sua resposta..."></textarea>
                 </div>
                 
                 <div class="flex justify-end space-x-3">
-                    <button onclick="closeResponseModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded transition" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
+                    <button onclick="closeResponseModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded transition">
                         Cancelar
                     </button>
-                    <button onclick="sendResponse()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                    <button onclick="sendResponse()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
                         <i class="fas fa-paper-plane mr-2"></i>Enviar
                     </button>
                 </div>
@@ -913,22 +883,22 @@
                 <form id="certificate-form" class="space-y-4">
                     <div>
                         <label for="cert-titulo" class="block text-sm font-medium text-gray-700 mb-2">Título:</label>
-                        <input type="text" id="cert-titulo" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Ex: Meta Front-End Developer" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                        <input type="text" id="cert-titulo" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Ex: Meta Front-End Developer">
                     </div>
                     
                     <div>
                         <label for="cert-instituicao" class="block text-sm font-medium text-gray-700 mb-2">Instituição:</label>
-                        <input type="text" id="cert-instituicao" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Ex: Meta (Facebook)" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                        <input type="text" id="cert-instituicao" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Ex: Meta (Facebook)">
                     </div>
                     
                     <div>
                         <label for="cert-data" class="block text-sm font-medium text-gray-700 mb-2">Data de Conclusão:</label>
-                        <input type="date" id="cert-data" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                        <input type="date" id="cert-data" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                     </div>
                     
                     <div>
                         <label for="cert-status" class="block text-sm font-medium text-gray-700 mb-2">Status:</label>
-                        <select id="cert-status" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                        <select id="cert-status" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                             <option value="">Selecione...</option>
                             <option value="concluido">Concluído</option>
                             <option value="em progresso">Em Progresso</option>
@@ -937,15 +907,15 @@
                     
                     <div>
                         <label for="cert-url" class="block text-sm font-medium text-gray-700 mb-2">URL do Certificado:</label>
-                        <input type="url" id="cert-url" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="https://..." style="background: var(--card-bg) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color) !important;">
+                        <input type="url" id="cert-url" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="https://...">
                     </div>
                 </form>
                 
                 <div class="flex justify-end space-x-3 mt-6">
-                    <button onclick="closeCertificateModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded transition text-sm" style="background: var(--background-secondary) !important; color: var(--text-primary) !important; border: 2px solid var(--primary-color);">
+                    <button onclick="closeCertificateModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded transition text-sm">
                         Cancelar
                     </button>
-                    <button onclick="saveCertificate()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition text-sm" style="background: var(--gradient-primary) !important; color: var(--accent-color) !important; border: 2px solid var(--primary-color);">
+                    <button onclick="saveCertificate()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition text-sm">
                         <i class="fas fa-save mr-2"></i>Salvar
                     </button>
                 </div>
