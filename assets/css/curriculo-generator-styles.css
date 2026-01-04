@@ -1,0 +1,732 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Merriweather:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;600;700&family=Libre+Baskerville:wght@400;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #3B82F6;
+    --secondary-color: #1E40AF;
+    --accent-color: #60A5FA;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --error-color: #EF4444;
+    --dark-bg: #0F172A;
+    --light-bg: #F8FAFC;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --border-color: #E2E8F0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para o sistema de partículas */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a1428 0%, #1e2328 50%, #3c3c41 100%);
+}
+
+.particle {
+    position: absolute;
+    background-color: #c8aa6e;
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+    box-shadow: 0 0 10px #c8aa6e;
+    filter: blur(1px);
+    animation: float-up linear infinite;
+}
+
+.particle.golden {
+    background-color: #c8aa6e;
+    box-shadow: 0 0 12px #c8aa6e;
+}
+
+.particle.light {
+    background-color: #f0e6d2;
+    box-shadow: 0 0 8px #f0e6d2;
+    opacity: 0.4;
+}
+
+.particle.dark {
+    background-color: #0a1428;
+    box-shadow: 0 0 15px #0a1428;
+    opacity: 0.2;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Corpo principal */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Loading Screen */
+#loading-screen {
+    background: linear-gradient(135deg, #0a1428 0%, #1e2328 50%, #3c3c41 100%);
+    transition: opacity 0.5s ease-in-out;
+}
+
+.loader {
+    text-align: center;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Progress Bar */
+#progress-bar {
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+}
+
+/* Tabs */
+.tab-button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tab-button.active {
+    border-bottom-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Tab Content */
+.tab-content {
+    animation: fadeInUp 0.4s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cards */
+.bg-white {
+    background-color: white;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* Inputs e Forms */
+input, textarea, select {
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+    background-color: white;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+input:hover, textarea:hover, select:hover {
+    border-color: var(--accent-color);
+}
+
+/* Buttons */
+button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Button animations */
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    z-index: 0;
+}
+
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+button > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Lista de itens */
+.item-card {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.item-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.item-card:hover::before {
+    transform: scaleY(1);
+}
+
+.item-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Skills */
+.skill-item {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    display: inline-block;
+    margin: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.skill-level {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Progress rings para skills */
+.skill-progress {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+.skill-progress svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.skill-progress circle {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+
+.skill-progress .bg-circle {
+    stroke: var(--border-color);
+}
+
+.skill-progress .progress-circle {
+    stroke: var(--primary-color);
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    transition: stroke-dashoffset 0.8s ease-in-out;
+}
+
+/* Preview do Currículo */
+#curriculum-preview {
+    background: white;
+    box-shadow: var(--shadow-lg);
+    min-height: 800px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    page-break-inside: avoid;
+    page-break-before: auto;
+    page-break-after: auto;
+}
+
+/* Garantir que a cor de fundo seja impressa em PDF */
+#curriculum-preview {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: inherit;
+}
+
+#curriculum-preview > div {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+    display: block;
+    page-break-inside: avoid;
+    background-color: inherit;
+}
+
+/* Correção para PDF - forçar cor de fundo no elemento principal */
+@media print {
+    #curriculum-preview,
+    #curriculum-preview > div {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: inherit !important;
+    }
+    
+    /* Regras específicas para PDF */
+    html, body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Evitar quebras de página em locais indesejados */
+    .curriculum-section {
+        page-break-inside: avoid;
+    }
+    
+    /* Manter cabeçalho sempre junto */
+    .curriculum-header {
+        page-break-inside: avoid;
+        page-break-after: avoid;
+    }
+}
+
+/* Themes do Currículo */
+.curriculum-modern {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.curriculum-classic {
+    font-family: 'Times New Roman', serif;
+    background: #ffffff;
+    border: 2px solid #000000;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-creative {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.curriculum-minimalist {
+    font-family: 'Lato', sans-serif;
+    background: #ffffff;
+    color: #333333;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-professional {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Novos themes profissionais */
+.curriculum-executive {
+    font-family: 'Crimson Text', serif;
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: white;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.curriculum-corporate {
+    font-family: 'Source Sans Pro', sans-serif;
+    background: #ffffff;
+    color: #1a202c;
+    border-top: 8px solid #0066cc;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-elegant {
+    font-family: 'Merriweather', serif;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    color: #2d3748;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.curriculum-tech {
+    font-family: 'Fira Sans', sans-serif;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+    color: #00ff88;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-academic {
+    font-family: 'EB Garamond', serif;
+    background: #ffffff;
+    color: #2d3748;
+    border-left: 5px solid #805ad5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.curriculum-startup {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ed64a6 0%, #9f7aea 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.curriculum-banking {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #ffffff;
+    color: #1a202c;
+    border: 3px solid #2b6cb0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-creative-bold {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(45deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.curriculum-legal {
+    font-family: 'Libre Baskerville', serif;
+    background: #ffffff;
+    color: #2d3748;
+    border-top: 6px solid #2c5282;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.curriculum-consulting {
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.curriculum-healthcare {
+    font-family: 'Nunito Sans', sans-serif;
+    background: #ffffff;
+    color: #2d3748;
+    border-left: 8px solid #38a169;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.curriculum-media {
+    font-family: 'Work Sans', sans-serif;
+    background: linear-gradient(135deg, #553c9a 0%, #ee4c7c 100%);
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Variações de layout expandidas */
+.layout-single-column {
+    display: block;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.layout-two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.layout-sidebar {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.layout-sidebar-right {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 30px;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.layout-three-column {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+.layout-header-main {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 30px;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* Estilos de espaçamento profissionais */
+.spacing-compact {
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+.spacing-compact h1,
+.spacing-compact h2,
+.spacing-compact h3 {
+    margin-bottom: 8px;
+    margin-top: 12px;
+}
+
+.spacing-normal {
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.spacing-normal h1,
+.spacing-normal h2,
+.spacing-normal h3 {
+    margin-bottom: 12px;
+    margin-top: 16px;
+}
+
+.spacing-relaxed {
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.spacing-relaxed h1,
+.spacing-relaxed h2,
+.spacing-relaxed h3 {
+    margin-bottom: 16px;
+    margin-top: 20px;
+}
+
+/* Tamanhos de fonte profissionais */
+.font-size-small {
+    font-size: 12px;
+}
+
+.font-size-small h1 { font-size: 22px; }
+.font-size-small h2 { font-size: 18px; }
+.font-size-small h3 { font-size: 16px; }
+
+.font-size-medium {
+    font-size: 14px;
+}
+
+.font-size-medium h1 { font-size: 26px; }
+.font-size-medium h2 { font-size: 20px; }
+.font-size-medium h3 { font-size: 17px; }
+
+.font-size-large {
+    font-size: 16px;
+}
+
+.font-size-large h1 { font-size: 30px; }
+.font-size-large h2 { font-size: 22px; }
+.font-size-large h3 { font-size: 19px; }
+
+/* Estilos de seção profissionais */
+.section-header {
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-header-underline {
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 5px;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.section-header-background {
+    background: currentColor;
+    color: white;
+    padding: 8px 16px;
+    margin: -8px -16px 15px -16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-header-sidebar {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    margin: -6px -12px 12px -12px;
+    font-weight: 500;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Estilos para PDF otimizados */
+@media print {
+    .curriculum-preview {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 210mm !important;
+        min-height: 297mm !important;
+        /* Removido background: white !important para permitir cores de fundo personalizadas */
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Removido sobrescrever cores de temas para permitir cores personalizadas */
+    /* Garantir que elementos dentro do currículo preservem cores de fundo */
+    .curriculum-preview * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Garantir que cores de fundo se mantenham no PDF */
+    html, body, .curriculum-preview > div {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: inherit !important;
+    }
+    
+    .layout-sidebar {
+        grid-template-columns: 60mm 1fr !important;
+        gap: 10mm !important;
+        padding: 15mm !important;
+    }
+    
+    .layout-two-column {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8mm !important;
+        padding: 15mm !important;
+    }
+    
+    .section-header {
+        page-break-after: avoid;
+    }
+    
+    .item-card {
+        page-break-inside: avoid;
+        margin-bottom: 8px !important;
+    }
+}
+
+/* Cores personalizáveis para temas */
+.primary-color-blue { --theme-primary: #3b82f6; }
+.primary-color-green { --theme-primary: #10b981; }
+.primary-color-purple { --theme-primary: #8b5cf6; }
+.primary-color-red { --theme-primary: #ef4444; }
+.primary-color-orange { --theme-primary: #f59e0b; }
+.primary-color-teal { --theme-primary: #14b8a6; }
+.primary-color-pink { --theme-primary: #ec4899; }
+.primary-color-indigo { --theme-primary: #6366f1; }
+
+/* Aplicar cor primária aos elementos */
+.section-header,
+.layout-sidebar .section-header-sidebar {
+    color: var(--theme-primary, #3b82f6);
+    border-color: var(--theme-primary, #3b82f6);
+}
+
+.section-header-background {
+    background: var(--theme-primary, #3b82f6);
+}
