@@ -479,41 +479,11 @@
         
         <!-- Futuros jogos serão adicionados aqui -->
     </div>
-
-        <!-- Overlay do Editor de Código Fehuna -->
-        <div id="code-editor-overlay">
-            <div class="editor-wrapper">
-                <h2>Desafio de Programação <span id="fehuna-challenge-title"></span></h2>
-                <div class="editor-area">
-                    <div class="left-pane">
-                        <textarea id="fehuna-code-input" spellcheck="false"></textarea>
-                        <div class="result-log" id="fehuna-result-log"></div>
-                    </div>
-                    <div class="challenge-box">
-                        <h3>Descrição</h3>
-                        <div id="fehuna-challenge-desc" style="font-size:13px; line-height:1.35; white-space:pre-wrap;"></div>
-                        <h3 style="margin-top:14px;">Casos de Teste</h3>
-                        <div id="fehuna-testcases"></div>
-                    </div>
-                </div>
-                <footer>
-                    <div style="display:flex; gap:8px;">
-                        <button id="fehuna-run" class="primary">Executar (Enter)</button>
-                        <button id="fehuna-save" title="Salvar alterações temporárias">Salvar Código</button>
-                        <button id="fehuna-reset">Reset Template</button>
-                    </div>
-                    <div style="display:flex; gap:8px;">
-                        <button id="fehuna-exit" class="danger">Sair (Esc)</button>
-                    </div>
-                </footer>
-            </div>
-        </div>
     
     <!-- Rodapé -->
     <footer>
         <p>© 2025 Mikael Ferreira <i class="fas fa-chess-rook"></i></p>
     </footer>
-    <link rel="stylesheet" href="../assets/css/code-editor-overlay.css" />
       <script>
         // Variável global para a instância do jogo
         let fehunaGame;
@@ -568,85 +538,6 @@
         window.addEventListener('resize', function() {
             if (fehunaGame) {
                 resizeCanvas();
-            }
-        });
-
-        // -------- Editor Overlay Integration --------
-        const overlay = document.getElementById('code-editor-overlay');
-        const codeInput = document.getElementById('fehuna-code-input');
-        const logBox = document.getElementById('fehuna-result-log');
-        const titleEl = document.getElementById('fehuna-challenge-title');
-        const descEl = document.getElementById('fehuna-challenge-desc');
-        const testcasesEl = document.getElementById('fehuna-testcases');
-        const btnRun = document.getElementById('fehuna-run');
-        const btnSave = document.getElementById('fehuna-save');
-        const btnReset = document.getElementById('fehuna-reset');
-        const btnExit = document.getElementById('fehuna-exit');
-
-        function openOverlayFromGame(game) {
-            if (!game || game.gameState !== 'programming') return;
-            const id = game.programmingPuzzles.active;
-            const challenge = game.programmingPuzzles.available[id];
-            titleEl.textContent = `: ${challenge.title}`;
-            descEl.textContent = challenge.description;
-            testcasesEl.innerHTML = '';
-            challenge.testCases.forEach((t,i)=>{
-                const div = document.createElement('div');
-                div.className='testcase';
-                div.textContent = `${i+1}. Input: ${JSON.stringify(t.input)} → Expected: ${JSON.stringify(t.expected)}`;
-                testcasesEl.appendChild(div);
-            });
-            codeInput.value = game.programmingPuzzles.codeEditor.code;
-            overlay.classList.add('active');
-        }
-
-        function syncBackToGame(game) {
-            if (!game) return;
-            game.programmingPuzzles.codeEditor.code = codeInput.value;
-        }
-
-        function closeOverlay(game, notify=true) {
-            overlay.classList.remove('active');
-            if (game) {
-                game.programmingPuzzles.codeEditor.visible = false;
-                game.gameState = 'playing';
-                if (notify) game.showNotification('Editor fechado', 'info');
-            }
-        }
-
-        btnRun.addEventListener('click', ()=>{
-            if (!fehunaGame) return; syncBackToGame(fehunaGame);
-            runChallenge(fehunaGame);
-        });
-        btnSave.addEventListener('click', ()=>{ if (fehunaGame){ syncBackToGame(fehunaGame); fehunaGame.showNotification('Código salvo localmente','success'); }});
-        btnReset.addEventListener('click', ()=>{
-            if (!fehunaGame) return; const id = fehunaGame.programmingPuzzles.active; codeInput.value = fehunaGame.programmingPuzzles.available[id].template; syncBackToGame(fehunaGame);
-        });
-        btnExit.addEventListener('click', ()=> closeOverlay(fehunaGame));
-
-        function runChallenge(game){
-            logBox.innerHTML='';
-            const id = game.programmingPuzzles.active; if(!id) return;
-            syncBackToGame(game);
-            game.runProgrammingChallenge();
-            // Logs básicos (usando últimas notificações)
-            const last = game.ui.notifications.slice(-3);
-            last.forEach(n=>{ const p=document.createElement('div'); p.textContent=n.text; logBox.appendChild(p); });
-        }
-
-        // Hook no startProgrammingChallenge para abrir overlay
-        const originalStart = FehunaGame.prototype.startProgrammingChallenge;
-        FehunaGame.prototype.startProgrammingChallenge = function(chId){
-            originalStart.call(this, chId);
-            setTimeout(()=>openOverlayFromGame(this),0);
-        };
-
-        // Esc global para fechar overlay
-        document.addEventListener('keydown', (e)=>{
-            if (e.key === 'Escape' && overlay.classList.contains('active')) {
-                closeOverlay(fehunaGame,false);
-            } else if (e.key === 'Enter' && overlay.classList.contains('active')) {
-                btnRun.click();
             }
         });
           // Teclas pressionadas
