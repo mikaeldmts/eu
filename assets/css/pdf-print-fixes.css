@@ -1,0 +1,169 @@
+/* Estilos específicos para impressão e PDF */
+
+/* Ajustes de impressão para garantir que as cores de fundo apareçam no PDF */
+@media print {
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Ajustes específicos ao currículo */
+    #curriculum-preview,
+    #curriculum-preview > div,
+    .curriculum-preview {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        page-break-inside: avoid;
+    }
+    
+    /* Prevenir quebras de página dentro de seções importantes */
+    #curriculum-preview header,
+    #curriculum-preview section,
+    #curriculum-preview .curriculum-section {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+    
+    /* Ajustes para diferentes temas de currículo para impressão */
+    .curriculum-modern,
+    .curriculum-creative,
+    .curriculum-professional,
+    .curriculum-executive,
+    .curriculum-tech,
+    .curriculum-startup,
+    .curriculum-creative-bold,
+    .curriculum-consulting,
+    .curriculum-media {
+        /* Permitir cores de fundo personalizadas */
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Melhorar a visualização de margens em PDF */
+    .document-margins-compact {
+        margin: 0.5cm !important;
+        padding: 0.5cm !important;
+    }
+    
+    .document-margins-normal {
+        margin: 1cm !important;
+        padding: 1cm !important;
+    }
+    
+    .document-margins-comfortable {
+        margin: 1.5cm !important;
+        padding: 1.5cm !important;
+    }
+    
+    .document-margins-wide {
+        margin: 2cm !important;
+        padding: 2cm !important;
+    }
+}
+
+/* Ajustes para cor de background */
+.custom-background {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+/* Ajustes para controlar a visibilidade dos links de projetos */
+.hide-project-links .contact-link,
+.hide-project-links .project-link {
+    display: none !important;
+}
+
+/* Garantir que os links apareçam com formatação correta quando visíveis */
+.project-link, 
+.contact-link {
+    display: inline-block;
+    margin-top: 0.5em;
+    text-decoration: none;
+}
+
+/* Correção específica para texto branco em experiências na página curriculum.html */
+.experience-item,
+.exp-item,
+.experience-section .experience-item,
+.curriculum-section .experience-item {
+    color: #000000 !important;
+    background-color: transparent !important;
+}
+
+.experience-item *,
+.exp-item *,
+.experience-section .experience-item *,
+.curriculum-section .experience-item * {
+    color: #000000 !important;
+}
+
+.experience-item h4,
+.experience-item h3,
+.experience-item p,
+.experience-item span,
+.exp-item h4,
+.exp-item h3,
+.exp-item p,
+.exp-item span {
+    color: #000000 !important;
+}
+
+/* Garantir visibilidade de texto em todas as seções */
+#curriculum-preview * {
+    color: inherit !important;
+}
+
+#curriculum-preview .main-text,
+#curriculum-preview p,
+#curriculum-preview span {
+    color: #000000 !important;
+}
+
+/* Força texto preto para PDF */
+@media print {
+    .experience-item,
+    .exp-item,
+    .experience-item *,
+    .exp-item * {
+        color: #000000 !important;
+        background-color: transparent !important;
+    }
+    
+    #curriculum-preview * {
+        color: #000000 !important;
+    }
+}
+
+/* Controle de visibilidade dos links de projetos */
+.hide-project-links .project-link,
+.hide-project-links .project-url {
+    display: none !important;
+}
+
+/* Estilos para diferentes opções de checkboxes */
+.hide-photo .profile-photo,
+.hide-photo .curriculum-photo {
+    display: none !important;
+}
+
+.hide-skills-progress .skill-progress,
+.hide-skills-progress .progress-bar {
+    display: none !important;
+}
+
+.hide-contact-icons .contact-icon,
+.hide-contact-icons .icon {
+    display: none !important;
+}
