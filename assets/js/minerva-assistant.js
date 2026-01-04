@@ -312,7 +312,8 @@ class MinervaUltraAssistant {
             return;
         }
 
-        // Criar container da Minerva Ultra
+        // Criar container da Minerva Ultra (apenas a coruja/CTA). O chat fica FORA no body
+        // para evitar bug de "position: fixed" quando o pai tem transform.
         const minervaContainer = document.createElement('div');
         minervaContainer.id = 'minerva-container';
         minervaContainer.classList.add('minerva-container');
@@ -351,53 +352,57 @@ class MinervaUltraAssistant {
                     <span></span><span></span><span></span>
                 </div>
             </div>
-            
-            <!-- Chat Ultra Evoluído -->
-            <div id="minerva-chat" class="minerva-chat hidden">
-                <div class="minerva-header">
-                    <div class="minerva-title">
-                        <i class="fas fa-feather-alt"></i>
-                        Minerva
-                    </div>
-                    <div class="minerva-status" id="minerva-status">
-                        <span class="status-dot active"></span>
-                        <span class="status-text">Online</span>
-                    </div>
-                    <button class="minerva-close" id="minerva-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="minerva-messages" id="minerva-messages">
-                    <div class="minerva-welcome">
-                        <div class="welcome-avatar">
-                            <i class="fas fa-feather-alt"></i>
-                        </div>
-                        <div class="welcome-message">
-                            <h3>Olá! Sou a Minerva 🦉</h3>
-                            <p>Assistente virtual do portfolio. Pergunte sobre projetos, tecnologias ou o Mikael!</p>
-                        </div>
-                        <div class="quick-suggestions">
-                            <button class="suggestion-btn" data-question="Quais são os projetos do Mikael?">📁 Projetos</button>
-                            <button class="suggestion-btn" data-question="Quais tecnologias são usadas neste site?">💻 Tecnologias</button>
-                            <button class="suggestion-btn" data-question="Como posso entrar em contato?">📧 Contato</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="minerva-input-area">
-                    <div class="input-container">
-                        <input type="text" id="minerva-input" placeholder="Digite sua pergunta..." maxlength="500" autocomplete="off">
-                        <button id="minerva-send" class="minerva-send-btn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
         `;
 
         // Inserir no body
         document.body.appendChild(minervaContainer);
+
+        // Criar o chat como elemento separado (fora do container) para centralizar corretamente
+        const chat = document.createElement('div');
+        chat.id = 'minerva-chat';
+        chat.className = 'minerva-chat hidden';
+        chat.innerHTML = `
+            <div class="minerva-header">
+                <div class="minerva-title">
+                    <i class="fas fa-feather-alt"></i>
+                    Minerva
+                </div>
+                <div class="minerva-status" id="minerva-status">
+                    <span class="status-dot active"></span>
+                    <span class="status-text">Online</span>
+                </div>
+                <button class="minerva-close" id="minerva-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="minerva-messages" id="minerva-messages">
+                <div class="minerva-welcome">
+                    <div class="welcome-avatar">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <div class="welcome-message">
+                        <h3>Olá! Sou a Minerva 🦉</h3>
+                        <p>Assistente virtual do portfolio. Pergunte sobre projetos, tecnologias ou o Mikael!</p>
+                    </div>
+                    <div class="quick-suggestions">
+                        <button class="suggestion-btn" data-question="Quais são os projetos do Mikael?">📁 Projetos</button>
+                        <button class="suggestion-btn" data-question="Quais tecnologias são usadas neste site?">💻 Tecnologias</button>
+                        <button class="suggestion-btn" data-question="Como posso entrar em contato?">📧 Contato</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="minerva-input-area">
+                <div class="input-container">
+                    <input type="text" id="minerva-input" placeholder="Digite sua pergunta..." maxlength="500" autocomplete="off">
+                    <button id="minerva-send" class="minerva-send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(chat);
 
         // Aplicar estilos dinâmicos adicionais
         this.applyDynamicStyles();
@@ -421,18 +426,20 @@ class MinervaUltraAssistant {
                 display: none !important;
             }
             
-            /* Animações específicas para ultra mode */
-            .minerva-container.ultra-active .minerva-particles {
-                animation: particleOrbit 8s linear infinite;
-            }
-            
-            .minerva-container.ultra-active .minerva-owl {
-                animation: owlMajestic 3s ease-in-out infinite;
-            }
-            
-            /* Efeitos especiais para thinking mode */
-            .minerva-owl.thinking {
-                animation: owlProcessing 2s ease-in-out infinite;
+            /* CHAT CENTRALIZADO NA TELA */
+            .minerva-chat:not(.hidden) {
+                display: flex !important;
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                transform: translate(-50%, -50%) !important;
+                width: 380px !important;
+                max-width: calc(100vw - 40px) !important;
+                height: 500px !important;
+                max-height: calc(100vh - 80px) !important;
+                z-index: 100000 !important;
             }
             
             .thinking-dots {
@@ -503,16 +510,6 @@ class MinervaUltraAssistant {
                 const question = e.target.getAttribute('data-question');
                 this.sendMessage(question);
             }
-        });
-
-        // Limpar conversa
-        document.getElementById('clear-btn').addEventListener('click', () => {
-            this.clearConversation();
-        });
-
-        // Funcionalidades avançadas no botão de voz
-        document.getElementById('voice-btn').addEventListener('click', () => {
-            this.showAdvancedFeatures();
         });
 
         // Mouse tracking para olhos da coruja
@@ -825,7 +822,7 @@ class MinervaUltraAssistant {
     }    openChat() {
         const chat = document.getElementById('minerva-chat');
         const owl = document.getElementById('minerva-owl');
-        const container = document.querySelector('.minerva-container');
+        const container = document.getElementById('minerva-container');
         
         // Criar overlay para escurecer o fundo
         this.createOverlay();
@@ -893,7 +890,7 @@ class MinervaUltraAssistant {
     closeChat() {
         const chat = document.getElementById('minerva-chat');
         const owl = document.getElementById('minerva-owl');
-        const container = document.querySelector('.minerva-container');
+        const container = document.getElementById('minerva-container');
         
         // Remover modal e overlay
         chat.classList.add('hidden');
