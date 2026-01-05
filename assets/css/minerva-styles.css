@@ -1200,59 +1200,10 @@ body.modal-open {
     overflow: hidden !important;
 }
 
-/* Responsividade do modal */
-@media (max-width: 768px) {
-    .minerva-chat.modal-open {
-        width: 95vw !important;
-        height: 85vh !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-}
+/* Responsividade do modal - consolidado no final do arquivo */
 
-/* Responsividade Mobile */
+/* Responsividade Mobile - Estilos do Chat (não do container/widget) */
 @media (max-width: 768px) {
-    #minerva-container {
-        bottom: 20px;
-        right: 15px;
-    }
-    
-    .minerva-owl {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .minerva-cta {
-        font-size: 0.7rem;
-        padding: 4px 8px;
-        top: -40px;
-    }
-    
-    .minerva-chat {
-        width: calc(100vw - 20px);
-        height: calc(100vh - 120px);
-        right: 10px;
-        bottom: 10px;
-        border-radius: 12px;
-        max-height: calc(100vh - 120px);
-    }
-    
-    /* Estilos específicos para modal no mobile */
-    .minerva-chat.modal-open {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: calc(100vw - 20px) !important;
-        height: calc(100vh - 80px) !important;
-        z-index: 1000000 !important;
-        max-width: none;
-        max-height: none;
-        margin: 0;
-        border-radius: 15px;
-    }
-    
     .minerva-header {
         padding: 12px 15px;
         border-radius: 12px 12px 0 0;
@@ -1655,39 +1606,35 @@ input, textarea, select {
     }
 }
 
-/* ========== POSIÇÃO MOBILE DA MINERVA ========== */
+/* ========== WIDGETS MOBILE (Minerva + Chat alinhados) ========== */
 @media (max-width: 768px) {
+    /* Widget Minerva - posição fixa no canto inferior direito */
     #minerva-container {
-        left: 10px !important;
-        right: auto !important; /* evita esticar o container (conflito com regras antigas) */
+        position: fixed !important;
+        bottom: 80px !important;
+        right: 15px !important;
+        left: auto !important;
         top: auto !important;
-        bottom: 100px !important;
-        margin-top: 0 !important;
-        width: auto !important;
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0 !important;
+        transform: none !important;
     }
 
-    /* Melhor suporte a drag no mobile */
+    /* Coruja compacta */
+    .minerva-owl {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    /* Suporte a drag no mobile */
     #minerva-container,
     #minerva-container .minerva-owl {
         touch-action: none;
         -ms-touch-action: none;
     }
     
-    /* Posição do widget Minerva no mobile */
-    #minerva-container {
-        bottom: 85px !important;
-        right: 15px !important;
-        left: auto !important;
-        top: auto !important;
-        width: 50px !important;
-        height: 50px !important;
-    }
-    
-    .minerva-owl {
-        width: 50px !important;
-        height: 50px !important;
-    }
-    
+    /* Chat da Minerva centralizado */
     .minerva-chat {
         position: fixed !important;
         top: 50% !important;
@@ -1699,5 +1646,24 @@ input, textarea, select {
         max-width: 400px !important;
         height: auto !important;
         max-height: 70vh !important;
+    }
+    
+    /* Chat widget (Talk to me) - abaixo da Minerva */
+    #chatbot.chat-widget-circle {
+        position: fixed !important;
+        bottom: 15px !important;
+        right: 15px !important;
+    }
+    
+    #chatbot .widget-btn {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
+    }
+    
+    #chatbot .chat-popup {
+        width: calc(100vw - 30px) !important;
+        max-width: 320px !important;
+        right: 0 !important;
     }
 }
