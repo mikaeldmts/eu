@@ -551,27 +551,33 @@
         </div>
     </section>
 
-<!-- Chatbot -->
-<div id="chatbot">
-    <div id="chat-header" onclick="toggleChat()">
-        <i class="fas fa-comments"></i> Talk to Me Here
-    </div>
-    <div id="chat-body">
-        <!-- Formulário de nome (mostrado inicialmente) -->
-        <div id="name-form" style="display: block;">
-            <div class="name-input-area">
-                <p>What should I call you?</p>
-                <input type="text" id="name-input" placeholder="Digite seu nome..." maxlength="50">
-                <button onclick="setUserName()">Join</button>
-            </div>
+<!-- Chatbot Widget (circular) -->
+<div id="chatbot" class="chat-widget-circle">
+    <button id="chat-toggle-btn" class="widget-btn" onclick="toggleChat()" title="Fale comigo">
+        <i class="fas fa-comments"></i>
+    </button>
+    <div id="chat-popup" class="chat-popup hidden">
+        <div id="chat-header">
+            <span>Chat</span>
+            <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
         </div>
-        
-        <!-- Área do chat (oculta inicialmente) -->
-        <div id="chat-area" style="display: none;">
-            <div id="chat-messages"></div>
-            <div id="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
-                <button onclick="sendMessage()"><i class="fas fa-arrow-right"></i></button>
+        <div id="chat-body">
+            <!-- Formulário de nome (mostrado inicialmente) -->
+            <div id="name-form" style="display: block;">
+                <div class="name-input-area">
+                    <p>Como posso te chamar?</p>
+                    <input type="text" id="name-input" placeholder="Seu nome..." maxlength="50">
+                    <button onclick="setUserName()">Entrar</button>
+                </div>
+            </div>
+            
+            <!-- Área do chat (oculta inicialmente) -->
+            <div id="chat-area" style="display: none;">
+                <div id="chat-messages"></div>
+                <div id="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </div>
         </div>
     </div>
