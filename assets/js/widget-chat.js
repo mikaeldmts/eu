@@ -372,6 +372,7 @@ class ChatWidget {
 
                 @media (max-width: 600px) {
                     .chat-widget {
+                        position: fixed;
                         width: calc(100vw - 20px);
                         height: 70vh;
                         bottom: 80px;
