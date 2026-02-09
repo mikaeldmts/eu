@@ -50,7 +50,7 @@ body {
   animation-delay: 150ms;
 }
 
-.footer-card {
+.repos-card {
   animation-delay: 220ms;
 }
 
@@ -201,7 +201,7 @@ h2 {
 }
 
 .timeline-card {
-  animation-delay: 220ms;
+  animation-delay: 280ms;
 }
 
 .timeline-item {
@@ -210,6 +210,65 @@ h2 {
   padding: 14px;
   background: rgba(255, 255, 255, 0.48);
   margin-top: 12px;
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.repo-link {
+  text-decoration: none;
+}
+
+.repo-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.48);
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.repo-link:hover .repo-card {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(10, 22, 20, 0.08);
+  border-color: rgba(15, 118, 110, 0.45);
+}
+
+.repo-card.empty {
+  min-height: auto;
+}
+
+.repo-title {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.repo-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.repo-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.repo-cta {
+  margin: 0;
+  color: var(--accent-soft);
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 @keyframes fadeUp {
@@ -241,6 +300,10 @@ h2 {
   }
 
   .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .repo-grid {
     grid-template-columns: 1fr;
   }
 }

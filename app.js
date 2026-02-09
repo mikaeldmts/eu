@@ -10,11 +10,11 @@ const el = {
   username: document.getElementById("username"),
   bio: document.getElementById("bio"),
   repos: document.getElementById("repos"),
-  followers: document.getElementById("followers"),
-  following: document.getElementById("following"),
   githubUpdated: document.getElementById("githubUpdated"),
   syncedAt: document.getElementById("syncedAt"),
-  status: document.getElementById("status")
+  status: document.getElementById("status"),
+  repoCards: document.getElementById("repoCards"),
+  repoCountNote: document.getElementById("repoCountNote")
 };
 
 function formatDate(value) {
@@ -38,10 +38,61 @@ function updateUI(profile) {
   el.username.href = profile.html_url || `https://github.com/${username}`;
   el.bio.textContent = profile.bio || "Sem bio informada.";
   el.repos.textContent = String(profile.public_repos ?? 0);
-  el.followers.textContent = String(profile.followers ?? 0);
-  el.following.textContent = String(profile.following ?? 0);
   el.githubUpdated.textContent = formatDate(profile.updated_at);
   el.syncedAt.textContent = formatDate(new Date().toISOString());
+}
+
+function createRepoCard(repo) {
+  const link = document.createElement("a");
+  link.className = "repo-link";
+  link.href = repo.html_url;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+
+  const card = document.createElement("article");
+  card.className = "repo-card";
+
+  const title = document.createElement("h3");
+  title.className = "repo-title";
+  title.textContent = repo.name;
+
+  const desc = document.createElement("p");
+  desc.className = "repo-desc";
+  desc.textContent = repo.description || "Sem descrição.";
+
+  const meta = document.createElement("p");
+  meta.className = "repo-meta";
+  meta.textContent = `Linguagem: ${repo.language || "-"} | Stars: ${repo.stargazers_count ?? 0}`;
+
+  const cta = document.createElement("p");
+  cta.className = "repo-cta";
+  cta.textContent = "Clique aqui para acessar o repositório";
+
+  card.append(title, desc, meta, cta);
+  link.appendChild(card);
+  return link;
+}
+
+function renderRepoCards(repos) {
+  if (!Array.isArray(repos) || repos.length === 0) {
+    el.repoCountNote.textContent = "Nenhum repositório encontrado";
+    el.repoCards.innerHTML = "";
+
+    const emptyCard = document.createElement("article");
+    emptyCard.className = "repo-card empty";
+    emptyCard.innerHTML = '<p class="label">Nenhum repositório público disponível.</p>';
+    el.repoCards.appendChild(emptyCard);
+    return;
+  }
+
+  el.repoCountNote.textContent = `${repos.length} repositório(s) encontrados`;
+  el.repoCards.innerHTML = "";
+
+  const fragment = document.createDocumentFragment();
+  repos.forEach((repo) => {
+    fragment.appendChild(createRepoCard(repo));
+  });
+  el.repoCards.appendChild(fragment);
 }
 
 function rateLimitMessage(response) {
@@ -56,34 +107,43 @@ function rateLimitMessage(response) {
   return `Limite da API atingido. Tenta novamente às ${formatDate(resetDate.toISOString())}.`;
 }
 
+async function fetchGithubJson(url) {
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.github+json"
+    }
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(`Usuário '${username}' não encontrado.`);
+    }
+
+    if (response.status === 403) {
+      throw new Error(rateLimitMessage(response));
+    }
+
+    throw new Error(`Erro HTTP ${response.status} ao consultar GitHub.`);
+  }
+
+  return response.json();
+}
+
 async function fetchProfile() {
   el.status.textContent = "Consultando API GitHub...";
 
   try {
-    const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, {
-      headers: {
-        Accept: "application/vnd.github+json"
-      }
-    });
+    const profileUrl = `https://api.github.com/users/${encodeURIComponent(username)}`;
+    const reposUrl = `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`;
+    const [profile, repos] = await Promise.all([fetchGithubJson(profileUrl), fetchGithubJson(reposUrl)]);
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error(`Usuário '${username}' não encontrado.`);
-      }
-
-      if (response.status === 403) {
-        throw new Error(rateLimitMessage(response));
-      }
-
-      throw new Error(`Erro HTTP ${response.status} ao consultar GitHub.`);
-    }
-
-    const profile = await response.json();
     updateUI(profile);
+    renderRepoCards(repos);
     el.status.textContent = "Online";
   } catch (error) {
     el.status.textContent = "Erro";
     el.bio.textContent = error.message;
+    el.repoCountNote.textContent = "Falha ao carregar";
     console.error("Erro API GitHub:", error);
   }
 }
