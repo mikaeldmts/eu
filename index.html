@@ -16,44 +16,60 @@
   </head>
   <body>
     <main class="layout">
-      <section class="card profile-card">
-        <p class="kicker">Realtime Monitor</p>
-        <h1 id="title">GitHub Profile</h1>
-        <div class="profile-head">
-          <img id="avatar" alt="Avatar do perfil" />
+      <section class="card hero-card">
+        <div class="hero-top">
           <div>
-            <p id="name" class="name">Carregando...</p>
-            <a id="username" href="#" target="_blank" rel="noreferrer">@...</a>
+            <p class="kicker">GitHub Intelligence Panel</p>
+            <h1 id="title">GitHub Profile</h1>
+            <p class="hero-text">Monitoramento automático de métricas públicas do perfil em tempo quase real.</p>
+          </div>
+          <div class="status-chip">
+            <span class="status-label">Status</span>
+            <strong id="status">Conectando...</strong>
           </div>
         </div>
-        <p id="bio" class="bio">Aguardando dados da API do GitHub...</p>
+
+        <div class="profile-wrap">
+          <img id="avatar" alt="Avatar do perfil" />
+          <div class="profile-content">
+            <p id="name" class="name">Carregando...</p>
+            <a id="username" href="#" target="_blank" rel="noreferrer">@...</a>
+            <p id="bio" class="bio">Aguardando dados da API do GitHub...</p>
+          </div>
+        </div>
       </section>
 
       <section class="card stats-card">
-        <h2>Indicadores</h2>
+        <div class="section-head">
+          <h2>Indicadores</h2>
+          <p class="section-note">Dados do endpoint público `users/{username}`</p>
+        </div>
         <div class="grid">
-          <article>
+          <article class="stat-tile">
             <p class="label">Repos públicos</p>
             <p id="repos" class="value">-</p>
           </article>
-          <article>
+          <article class="stat-tile">
             <p class="label">Seguidores</p>
             <p id="followers" class="value">-</p>
           </article>
-          <article>
+          <article class="stat-tile">
             <p class="label">Seguindo</p>
             <p id="following" class="value">-</p>
           </article>
-          <article>
+          <article class="stat-tile">
             <p class="label">Último update GitHub</p>
             <p id="githubUpdated" class="value small">-</p>
           </article>
         </div>
       </section>
 
-      <section class="card footer-card">
-        <p>Status API GitHub: <strong id="status">Conectando...</strong></p>
-        <p>Última leitura local: <strong id="syncedAt">-</strong></p>
+      <section class="card timeline-card">
+        <h2>Linha do Tempo</h2>
+        <div class="timeline-item">
+          <p class="label">Última leitura local</p>
+          <p id="syncedAt" class="value small">-</p>
+        </div>
       </section>
     </main>
 
