@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -66,6 +67,38 @@
             <p class="label">Sem dados no momento.</p>
           </article>
         </div>
+      </section>
+
+      <section class="card skills-card">
+        <div class="section-head">
+          <h2>Skills & Proficiência</h2>
+          <p id="skillsCountNote" class="section-note">Aguardando análise...</p>
+        </div>
+
+        <div class="skills-explainer">
+          <div class="skills-explainer-head">
+            <i class="fas fa-circle-info"></i>
+            <h3>Como a proficiência é calculada?</h3>
+          </div>
+          <p>
+            Os dados abaixo são coletados em tempo real dos repositórios públicos do GitHub. O score combina:
+          </p>
+          <ul>
+            <li><strong>Volume de código</strong> por linguagem (tamanho dos repositórios)</li>
+            <li><strong>Frequência de uso</strong> em projetos diferentes</li>
+            <li><strong>Diversidade tecnológica</strong> inferida por linguagem e contexto dos projetos</li>
+          </ul>
+          <p class="skills-legend">
+            As estrelas representam nível de proficiência (1-5), e a porcentagem mostra a força relativa da skill.
+          </p>
+        </div>
+
+        <div id="skillsLoading" class="skills-loading">
+          <div class="loader-dot"></div>
+          <p>Analisando repositórios e montando skills...</p>
+        </div>
+
+        <div id="skillsGrid" class="skills-grid"></div>
       </section>
 
       <section class="card timeline-card">
