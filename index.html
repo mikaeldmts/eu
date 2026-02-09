@@ -27,6 +27,7 @@
           <div class="status-chip">
             <span class="status-label">Status</span>
             <strong id="status">Conectando...</strong>
+            <a class="admin-link" href="./admin.html" title="Abrir painel admin" aria-label="Abrir painel admin">Admin</a>
           </div>
         </div>
 
@@ -110,7 +111,39 @@
       </section>
     </main>
 
+    <div id="chatbot" class="chat-widget-circle">
+      <button id="chat-toggle-btn" class="widget-btn" type="button" title="Fale comigo">
+        <i class="fas fa-comments"></i>
+      </button>
+      <div id="chat-popup" class="chat-popup hidden" role="dialog" aria-label="Chat">
+        <div id="chat-header" class="chat-header">
+          <span>Chat</span>
+          <button class="close-chat" type="button" onclick="toggleChat()" aria-label="Fechar chat">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="chat-body" class="chat-body">
+          <div id="name-form" class="chat-name-form">
+            <p class="label">Como posso te chamar?</p>
+            <input type="text" id="name-input" placeholder="Seu nome..." maxlength="40" />
+            <button type="button" class="chat-primary-btn" onclick="setUserName()">Entrar</button>
+          </div>
+
+          <div id="chat-area" class="chat-area" style="display: none;">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div id="chat-input-area" class="chat-input-area">
+              <input type="text" id="chat-input" placeholder="Digite sua mensagem..." maxlength="500" />
+              <button id="chat-send-btn" type="button" title="Enviar">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="./config.js"></script>
     <script type="module" src="./app.js"></script>
+    <script type="module" src="./chat-widget.js"></script>
   </body>
 </html>
