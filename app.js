@@ -104,6 +104,55 @@ const SKILL_DESCRIPTIONS = {
   Markdown: "Documentacao tecnica clara para projetos e repositorios."
 };
 
+const FALLBACK_REPOS = [
+  {
+    name: "eu",
+    html_url: "https://github.com/mikaeldmts/eu",
+    description: "Portfolio profissional moderno com dashboards integrados.",
+    language: "JavaScript",
+    stargazers_count: 1,
+    size: 2995,
+    fork: false
+  },
+  {
+    name: "agentminerva",
+    html_url: "https://github.com/mikaeldmts/agentminerva",
+    description: "Assistente IA personalizada com interface web moderna.",
+    language: "PHP",
+    stargazers_count: 0,
+    size: 243,
+    fork: false
+  },
+  {
+    name: "checkstock",
+    html_url: "https://github.com/mikaeldmts/checkstock",
+    description: "Sistema para apoio a decisoes de compras com IA.",
+    language: "PHP",
+    stargazers_count: 0,
+    size: 83,
+    fork: false
+  },
+  {
+    name: "lojinhadasister",
+    html_url: "https://github.com/mikaeldmts/lojinhadasister",
+    description: "Sistema web para loja com painel administrativo.",
+    language: "PHP",
+    stargazers_count: 0,
+    size: 202,
+    fork: false
+  }
+];
+
+const FALLBACK_PROFILE = {
+  login: "mikaeldmts",
+  name: "Mikael F. de Matos",
+  bio: "Perfil em modo de contingencia local por limite temporario da API.",
+  avatar_url: "https://avatars.githubusercontent.com/u/142128917?v=4",
+  html_url: "https://github.com/mikaeldmts",
+  public_repos: FALLBACK_REPOS.length,
+  updated_at: "2026-01-28T19:12:14Z"
+};
+
 class RateLimitError extends Error {
   constructor(resetAtMs) {
     super("Rate limit GitHub atingido.");
@@ -576,9 +625,17 @@ function applyCachedData(profileEntry, reposEntry) {
   }
 }
 
+function applyFallbackSnapshot(statusMessage) {
+  updateUI(FALLBACK_PROFILE);
+  renderRepoCards(FALLBACK_REPOS);
+  renderSkillsCards(FALLBACK_REPOS);
+  el.status.textContent = statusMessage;
+}
+
 async function refreshDashboard() {
   const profileEntry = readCacheEntry(CACHE_KEYS.profile);
   const reposEntry = readCacheEntry(CACHE_KEYS.repos);
+  const hasCache = Boolean(profileEntry?.data) || Boolean(reposEntry?.data);
 
   applyCachedData(profileEntry, reposEntry);
 
@@ -633,23 +690,30 @@ async function refreshDashboard() {
   } catch (error) {
     if (error instanceof RateLimitError) {
       const resetText = formatDate(error.resetAtMs);
-      const hasCache = Boolean(profileEntry?.data) || Boolean(reposEntry?.data);
 
       if (hasCache) {
         el.status.textContent = `Rate limit. Exibindo cache ate ${resetText}`;
       } else {
-        el.status.textContent = "Erro";
-        el.bio.textContent = `Limite da API atingido. Tente novamente as ${resetText}.`;
+        applyFallbackSnapshot(`Rate limit da API. Exibindo fallback ate ${resetText}`);
+        writeCacheEntry(CACHE_KEYS.profile, FALLBACK_PROFILE, null);
+        writeCacheEntry(CACHE_KEYS.repos, FALLBACK_REPOS, null);
       }
 
       return;
     }
 
-    el.status.textContent = "Erro";
-    el.bio.textContent = error.message;
-    el.repoCountNote.textContent = "Falha ao carregar";
-    if (el.skillsCountNote) el.skillsCountNote.textContent = "Falha ao analisar";
-    if (el.skillsLoading) el.skillsLoading.style.display = "none";
+    if (!hasCache) {
+      applyFallbackSnapshot("Erro temporario da API. Exibindo fallback local.");
+      writeCacheEntry(CACHE_KEYS.profile, FALLBACK_PROFILE, null);
+      writeCacheEntry(CACHE_KEYS.repos, FALLBACK_REPOS, null);
+    } else {
+      el.status.textContent = "Erro";
+      el.bio.textContent = error.message;
+      el.repoCountNote.textContent = "Falha ao carregar";
+      if (el.skillsCountNote) el.skillsCountNote.textContent = "Falha ao analisar";
+      if (el.skillsLoading) el.skillsLoading.style.display = "none";
+    }
+
     console.error("Erro API GitHub:", error);
   }
 }
