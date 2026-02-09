@@ -80,12 +80,16 @@ export class ChatManager {
             const q = query(messagesRef);
 
             const unsubscribe = onSnapshot(q, (snapshot) => {
+                console.log('Snapshot recebido:', snapshot.docs.length, 'documentos');
+                
                 const chatsMap = new Map();
                 const allMessages = [];
 
                 snapshot.forEach((doc) => {
                     allMessages.push({ data: doc.data(), id: doc.id });
                 });
+
+                console.log('Total de mensagens:', allMessages.length);
 
                 // Ordenar por hora
                 allMessages.sort((a, b) => {
@@ -123,13 +127,17 @@ export class ChatManager {
                     }
                 });
 
-                callback(Array.from(chatsMap.values()));
+                const chatsArray = Array.from(chatsMap.values());
+                console.log('Chats mapeados:', chatsArray);
+                callback(chatsArray);
+            }, (error) => {
+                console.error('Erro ao carregar chats:', error);
             });
 
             this.listeners.push(unsubscribe);
             return unsubscribe;
         } catch (error) {
-            console.error('Erro ao carregar chats:', error);
+            console.error('Erro ao configurar listener de chats:', error);
         }
     }
 
@@ -148,6 +156,8 @@ export class ChatManager {
                     messages.push({ id: doc.id, ...doc.data() });
                 });
 
+                console.log('Mensagens carregadas para chat', chatId, ':', messages.length);
+
                 // Ordenar por hora
                 messages.sort((a, b) => {
                     const horaA = a.hora ? (typeof a.hora.toDate === 'function' ? a.hora.toDate().getTime() : 0) : 0;
@@ -156,18 +166,21 @@ export class ChatManager {
                 });
 
                 callback(messages);
+            }, (error) => {
+                console.error('Erro ao carregar mensagens:', error);
             });
 
             this.listeners.push(unsubscribe);
             return unsubscribe;
         } catch (error) {
-            console.error('Erro ao carregar mensagens:', error);
+            console.error('Erro ao configurar listener de mensagens:', error);
         }
     }
 
     // Responder mensagem (apenas admin)
     async respondMessage(messageId, resposta) {
         try {
+            console.log('Respondendo mensagem:', messageId);
             const messageRef = doc(db, 'mensagens', messageId);
             await updateDoc(messageRef, {
                 resposta: resposta,

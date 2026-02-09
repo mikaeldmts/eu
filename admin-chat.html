@@ -700,23 +700,28 @@
             try {
                 const user = await checkAuth();
                 document.getElementById('user-email').textContent = user.email;
-                loadChats();
+                console.log('Admin painel iniciado para:', user.email);
+                window.loadChats();
             } catch (error) {
-                console.error('Erro:', error);
+                console.error('Erro na autenticação:', error);
+                alert('Erro ao autenticar. Redirecionando...');
             }
         });
 
         // ============ CHATS ============
-        function loadChats() {
+        window.loadChats = function() {
+            console.log('Carregando chats...');
             chatManager.onChatsLoad((chats) => {
-                displayChats(chats);
+                console.log('Chats carregados:', chats);
+                window.displayChats(chats);
             });
-        }
+        };
 
-        function displayChats(chats) {
+        window.displayChats = function(chats) {
             const list = document.getElementById('chats-list');
 
-            if (chats.length === 0) {
+            if (!chats || chats.length === 0) {
+                console.log('Nenhum chat encontrado');
                 list.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-comments"></i>
@@ -737,7 +742,7 @@
                 }) : '-';
 
                 return `
-                    <div class="chat-item ${currentChatId === chat.chatId ? 'active' : ''}" onclick="selectChat('${chat.chatId}')">
+                    <div class="chat-item ${currentChatId === chat.chatId ? 'active' : ''}" onclick="window.selectChat('${chat.chatId}')">
                         <div class="chat-item-top">
                             <span class="chat-item-name">${chat.nome}</span>
                             <span class="chat-badge ${chat.mensagensNaoRespondidas > 0 ? 'unread' : 'read'}">
@@ -754,10 +759,11 @@
                 acc[chat.chatId] = chat;
                 return acc;
             }, {});
-        }
+        };
 
         // ============ SELECT CHAT ============
         window.selectChat = function(chatId) {
+            console.log('Selecionando chat:', chatId);
             currentChatId = chatId;
 
             document.querySelectorAll('.chat-item').forEach(item => {
@@ -767,24 +773,29 @@
             document.querySelector(`.chat-item[onclick*="${chatId}"]`)?.classList.add('active');
 
             const chat = chatsData[chatId];
-            if (!chat) return;
+            if (!chat) {
+                console.error('Chat não encontrado:', chatId);
+                return;
+            }
 
             document.getElementById('no-chat-selected').style.display = 'none';
             document.getElementById('chat-view').style.display = 'flex';
             document.getElementById('chat-title').textContent = `Chat com ${chat.nome}`;
             document.getElementById('chat-info').textContent = `${chat.totalMensagens} mensagens • ${chat.mensagensNaoRespondidas} não respondidas`;
 
-            loadMessages(chatId);
+            window.loadMessages(chatId);
         };
 
         // ============ MESSAGES ============
-        function loadMessages(chatId) {
+        window.loadMessages = function(chatId) {
+            console.log('Carregando mensagens do chat:', chatId);
             chatManager.onChatMessagesLoad(chatId, (messages) => {
-                displayMessages(messages);
+                console.log('Mensagens carregadas:', messages);
+                window.displayMessages(messages);
             });
-        }
+        };
 
-        function displayMessages(messages) {
+        window.displayMessages = function(messages) {
             const area = document.getElementById('messages-area');
 
             area.innerHTML = messages.map(msg => {
@@ -805,7 +816,7 @@
                                 <div class="message-time">Respondido</div>
                             </div>
                         ` : `
-                            <button onclick="openResponseModal('${msg.id}', '${msg.mensagem.replace(/'/g, "\\'")}'" style="align-self: flex-end; background: none; border: none; color: var(--primary); cursor: pointer; font-size: 12px; padding: 8px 0; text-decoration: none; font-weight: 500; margin-top: 8px;">
+                            <button onclick="window.openResponseModal('${msg.id}', '${msg.mensagem.replace(/'/g, "\\'")}'" style="align-self: flex-end; background: none; border: none; color: var(--primary); cursor: pointer; font-size: 12px; padding: 8px 0; text-decoration: none; font-weight: 500; margin-top: 8px;">
                                 <i class="fas fa-reply"></i> Responder
                             </button>
                         `}
@@ -814,10 +825,11 @@
             }).join('');
 
             area.scrollTop = area.scrollHeight;
-        }
+        };
 
         // ============ RESPONSE ============
         window.openResponseModal = function(msgId, original) {
+            console.log('Abrindo modal para mensagem:', msgId);
             currentMessageId = msgId;
             document.getElementById('original-message').textContent = original;
             document.getElementById('modal-response').value = '';
@@ -835,11 +847,13 @@
                 return;
             }
 
+            console.log('Enviando resposta...');
             const result = await chatManager.respondMessage(currentMessageId, resp);
             if (result.success) {
-                closeResponseModal();
-                loadChats();
-                if (currentChatId) loadMessages(currentChatId);
+                console.log('Resposta enviada com sucesso');
+                window.closeResponseModal();
+                window.loadChats();
+                if (currentChatId) window.loadMessages(currentChatId);
             } else {
                 alert('Erro: ' + result.error);
             }
@@ -884,12 +898,14 @@
                 return;
             }
 
+            console.log('Enviando resposta para mensagem:', targetId);
             const result = await chatManager.respondMessage(targetId, resp);
             if (result.success) {
+                console.log('Resposta enviada');
                 document.getElementById('response-input').value = '';
                 document.getElementById('char-count').textContent = '0';
-                loadChats();
-                loadMessages(currentChatId);
+                window.loadChats();
+                window.loadMessages(currentChatId);
             } else {
                 alert('Erro: ' + result.error);
             }
@@ -898,25 +914,35 @@
 
         // ============ CONTROLS ============
         window.refreshChats = function() {
-            loadChats();
+            console.log('Atualizando chats...');
+            window.loadChats();
         };
 
         window.logout = async function() {
             if (confirm('Sair?')) {
-                const { doLogout: logout } = await import('./assets/js/auth.js');
-                logout();
+                try {
+                    const { doLogout: logout } = await import('./assets/js/auth.js');
+                    logout();
+                } catch (error) {
+                    console.error('Erro ao fazer logout:', error);
+                }
             }
         };
 
         // ============ EVENTS ============
-        document.getElementById('response-input').addEventListener('input', (e) => {
-            document.getElementById('char-count').textContent = e.target.value.length;
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                sendResponse();
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('response-input');
+            if (input) {
+                input.addEventListener('input', (e) => {
+                    document.getElementById('char-count').textContent = e.target.value.length;
+                });
             }
+
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    window.sendResponse();
+                }
+            });
         });
     </script>
 </body>

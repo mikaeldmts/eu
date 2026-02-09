@@ -454,8 +454,10 @@ class ChatWidget {
     async handleSubmit(e) {
         e.preventDefault();
 
-        const nome = document.getElementById('chat-name').value.trim();
-        const mensagem = document.getElementById('chat-message').value.trim();
+        const nomeInput = document.getElementById('chat-name');
+        const mensagemInput = document.getElementById('chat-message');
+        const nome = nomeInput.value.trim();
+        const mensagem = mensagemInput.value.trim();
         const statusDiv = document.getElementById('chat-status');
         const submitBtn = document.querySelector('.btn-send');
 
@@ -477,9 +479,15 @@ class ChatWidget {
             // Adicionar mensagem ao widget
             this.addMessageToWidget(mensagem, 'user');
 
-            // Limpar formulário completamente
-            document.getElementById('chat-name').value = '';
-            document.getElementById('chat-message').value = '';
+            // Limpar inputs de forma forçada e visível
+            nomeInput.value = '';
+            mensagemInput.value = '';
+            
+            // Disparar evento de input para atualizar contador
+            const event = new Event('input', { bubbles: true });
+            mensagemInput.dispatchEvent(event);
+            
+            // Limpar status anterior
             document.getElementById('char-count').textContent = '0/500';
 
             statusDiv.textContent = '✓ Mensagem enviada! Responderei em breve.';
@@ -492,6 +500,11 @@ class ChatWidget {
                 statusDiv.textContent = '';
                 statusDiv.style.color = '#667eea';
             }, 3000);
+
+            // Focar no campo de nome para próxima mensagem
+            setTimeout(() => {
+                nomeInput.focus();
+            }, 500);
         } else {
             statusDiv.textContent = `❌ Erro: ${result.error}`;
             statusDiv.style.color = '#f44336';
