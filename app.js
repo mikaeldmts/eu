@@ -1,7 +1,18 @@
 const config = window.APP_CONFIG ?? {};
 const username = config.githubUsername || "mikaeldmts";
-const refreshSeconds = Number(config.refreshSeconds ?? 60);
-const refreshMs = Number.isFinite(refreshSeconds) && refreshSeconds > 0 ? refreshSeconds * 1000 : 60000;
+const refreshSeconds = Number(config.refreshSeconds ?? 300);
+const profileCacheMinutes = Number(config.profileCacheMinutes ?? 15);
+const reposCacheMinutes = Number(config.reposCacheMinutes ?? 30);
+
+const refreshMs = Math.max(refreshSeconds * 1000, 60 * 1000);
+const profileCacheTtlMs = Math.max(profileCacheMinutes * 60 * 1000, 60 * 1000);
+const reposCacheTtlMs = Math.max(reposCacheMinutes * 60 * 1000, 60 * 1000);
+
+const CACHE_KEYS = {
+  profile: `gh_profile_${username}`,
+  repos: `gh_repos_${username}`,
+  rateLimitReset: `gh_rate_limit_reset_${username}`
+};
 
 const el = {
   title: document.getElementById("title"),
@@ -70,28 +81,123 @@ const SKILL_ICONS = {
 };
 
 const SKILL_DESCRIPTIONS = {
-  JavaScript: "Linguagem principal para interfaces dinâmicas e aplicações web completas.",
-  TypeScript: "Tipagem estática para bases robustas e manutenção de longo prazo.",
-  HTML: "Estrutura semântica para páginas acessíveis e bem organizadas.",
-  CSS: "Estilização e responsividade com foco em experiência visual.",
-  Python: "Automação e backend para tarefas de dados e produtividade.",
-  Java: "Base sólida para aplicações empresariais e APIs robustas.",
-  PHP: "Desenvolvimento web server-side com integração de banco de dados.",
-  React: "Componentização de UI para frontends modernos e reativos.",
-  "Node.js": "Runtime para APIs e serviços backend em JavaScript.",
-  Firebase: "Backend as a Service para dados e integrações em tempo real.",
-  Git: "Versionamento e colaboração de código em equipe.",
-  GitHub: "Plataforma de hospedagem, revisão e gestão de projetos.",
-  "API REST": "Arquitetura de serviços para integração entre sistemas.",
+  JavaScript: "Linguagem principal para interfaces dinamicas e aplicacoes web completas.",
+  TypeScript: "Tipagem estatica para bases robustas e manutencao de longo prazo.",
+  HTML: "Estruturacao semantica para paginas acessiveis e bem organizadas.",
+  CSS: "Estilizacao e responsividade com foco em experiencia visual.",
+  Python: "Automacao e backend para tarefas de dados e produtividade.",
+  Java: "Base solida para aplicacoes empresariais e APIs robustas.",
+  PHP: "Desenvolvimento web server-side com integracao de banco de dados.",
+  React: "Componentizacao de UI para frontends modernos e reativos.",
+  "Node.js": "Runtime para APIs e servicos backend em JavaScript.",
+  Firebase: "Backend as a Service para dados e integracoes em tempo real.",
+  Git: "Versionamento e colaboracao de codigo em equipe.",
+  GitHub: "Plataforma de hospedagem, revisao e gestao de projetos.",
+  "API REST": "Arquitetura de servicos para integracao entre sistemas.",
   "Express.js": "Framework minimalista para APIs em Node.js.",
-  Bootstrap: "Framework CSS para construção rápida de interfaces responsivas.",
+  Bootstrap: "Framework CSS para construcao rapida de interfaces responsivas.",
   "Vue.js": "Framework progressivo para interfaces web interativas.",
-  Angular: "Framework completo para aplicações front-end de grande escala.",
-  Docker: "Containerização para padronizar ambientes de desenvolvimento e deploy.",
+  Angular: "Framework completo para aplicacoes front-end de grande escala.",
+  Docker: "Containerizacao para padronizar ambientes de desenvolvimento e deploy.",
   SQL: "Consultas e modelagem de dados em bancos relacionais.",
-  JSON: "Formato de troca de dados usado em integrações de API.",
-  Markdown: "Documentação técnica clara para projetos e repositórios."
+  JSON: "Formato de troca de dados usado em integracoes de API.",
+  Markdown: "Documentacao tecnica clara para projetos e repositorios."
 };
+
+class RateLimitError extends Error {
+  constructor(resetAtMs) {
+    super("Rate limit GitHub atingido.");
+    this.name = "RateLimitError";
+    this.resetAtMs = resetAtMs;
+  }
+}
+
+function safeStorageGet(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeStorageSet(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // noop
+  }
+}
+
+function safeStorageRemove(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // noop
+  }
+}
+
+function readCacheEntry(key) {
+  const raw = safeStorageGet(key);
+  if (!raw) return null;
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeCacheEntry(key, data, etag) {
+  safeStorageSet(
+    key,
+    JSON.stringify({
+      data,
+      etag: etag || null,
+      updatedAt: Date.now()
+    })
+  );
+}
+
+function touchCacheEntry(key) {
+  const entry = readCacheEntry(key);
+  if (!entry) return;
+  entry.updatedAt = Date.now();
+  safeStorageSet(key, JSON.stringify(entry));
+}
+
+function isCacheFresh(entry, ttlMs) {
+  if (!entry || !Number.isFinite(entry.updatedAt)) return false;
+  return Date.now() - entry.updatedAt < ttlMs;
+}
+
+function getRateLimitResetMs() {
+  const raw = safeStorageGet(CACHE_KEYS.rateLimitReset);
+  const resetAtMs = Number(raw);
+  if (!Number.isFinite(resetAtMs)) return null;
+
+  if (Date.now() >= resetAtMs) {
+    safeStorageRemove(CACHE_KEYS.rateLimitReset);
+    return null;
+  }
+
+  return resetAtMs;
+}
+
+function setRateLimitResetMs(resetAtMs) {
+  if (!Number.isFinite(resetAtMs)) return;
+  safeStorageSet(CACHE_KEYS.rateLimitReset, String(resetAtMs));
+}
+
+function updateRateLimitFromHeaders(response) {
+  const remaining = response.headers.get("x-ratelimit-remaining");
+  const reset = response.headers.get("x-ratelimit-reset");
+
+  if (remaining === "0" && reset) {
+    setRateLimitResetMs(Number(reset) * 1000);
+  }
+}
 
 function formatDate(value) {
   if (!value) return "-";
@@ -135,6 +241,8 @@ function getSkillDescription(skillName) {
 }
 
 function updateUI(profile) {
+  if (!profile) return;
+
   el.title.textContent = `GitHub Profile: ${profile.login}`;
   el.avatar.src = profile.avatar_url || "";
   el.avatar.alt = `Avatar de ${profile.login}`;
@@ -163,7 +271,7 @@ function createRepoCard(repo) {
 
   const desc = document.createElement("p");
   desc.className = "repo-desc";
-  desc.textContent = repo.description || "Sem descrição.";
+  desc.textContent = repo.description || "Sem descricao.";
 
   const meta = document.createElement("p");
   meta.className = "repo-meta";
@@ -171,7 +279,7 @@ function createRepoCard(repo) {
 
   const cta = document.createElement("p");
   cta.className = "repo-cta";
-  cta.textContent = "Clique aqui para acessar o repositório";
+  cta.textContent = "Clique aqui para acessar o repositorio";
 
   card.append(title, desc, meta, cta);
   link.appendChild(card);
@@ -180,17 +288,17 @@ function createRepoCard(repo) {
 
 function renderRepoCards(repos) {
   if (!Array.isArray(repos) || repos.length === 0) {
-    el.repoCountNote.textContent = "Nenhum repositório encontrado";
+    el.repoCountNote.textContent = "Nenhum repositorio encontrado";
     el.repoCards.innerHTML = "";
 
     const emptyCard = document.createElement("article");
     emptyCard.className = "repo-card empty";
-    emptyCard.innerHTML = '<p class="label">Nenhum repositório público disponível.</p>';
+    emptyCard.innerHTML = '<p class="label">Nenhum repositorio publico disponivel.</p>';
     el.repoCards.appendChild(emptyCard);
     return;
   }
 
-  el.repoCountNote.textContent = `${repos.length} repositório(s) encontrados`;
+  el.repoCountNote.textContent = `${repos.length} repositorio(s) encontrados`;
   el.repoCards.innerHTML = "";
 
   const fragment = document.createDocumentFragment();
@@ -268,9 +376,8 @@ function analyzeSkillsFromRepos(repos) {
     });
 
   const mergedSkills = [];
-  const languageEntries = Object.entries(languageStats);
 
-  languageEntries.forEach(([language, bytes]) => {
+  Object.entries(languageStats).forEach(([language, bytes]) => {
     const distributionPercent = totalLanguageBytes > 0 ? (bytes / totalLanguageBytes) * 100 : 0;
     const diversityBonus = Math.min((languageRepoCount[language] || 1) * 5, 20);
     const finalPercent = Math.min(Math.round(distributionPercent * 0.8 + diversityBonus), 100);
@@ -298,9 +405,7 @@ function analyzeSkillsFromRepos(repos) {
     });
   });
 
-  return mergedSkills
-    .sort((a, b) => b.percentage - a.percentage)
-    .slice(0, 14);
+  return mergedSkills.sort((a, b) => b.percentage - a.percentage).slice(0, 14);
 }
 
 function createSkillCard(skill) {
@@ -332,7 +437,7 @@ function createSkillCard(skill) {
   level.className = "skill-level";
   const levelLabel = document.createElement("span");
   levelLabel.className = "skill-level-label";
-  levelLabel.textContent = "Proficiência";
+  levelLabel.textContent = "Proficiencia";
   const levelStars = document.createElement("div");
   levelStars.className = "skill-stars";
   levelStars.appendChild(buildStars(skill.percentage));
@@ -384,7 +489,7 @@ function renderSkillsCards(repos) {
     el.skillsCountNote.textContent = "Sem skills detectadas";
     const empty = document.createElement("article");
     empty.className = "skill-card empty";
-    empty.innerHTML = "<p class='label'>Não foi possível calcular skills com os dados atuais.</p>";
+    empty.innerHTML = "<p class='label'>Nao foi possivel calcular skills com os dados atuais.</p>";
     el.skillsGrid.appendChild(empty);
     return;
   }
@@ -399,53 +504,147 @@ function renderSkillsCards(repos) {
   el.skillsGrid.appendChild(fragment);
 }
 
-function rateLimitMessage(response) {
-  const remaining = response.headers.get("x-ratelimit-remaining");
-  const reset = response.headers.get("x-ratelimit-reset");
-
-  if (remaining !== "0" || !reset) {
-    return "Falha ao buscar dados da API.";
+function createRateLimitError(response) {
+  const resetHeader = response.headers.get("x-ratelimit-reset");
+  if (resetHeader) {
+    const resetAtMs = Number(resetHeader) * 1000;
+    if (Number.isFinite(resetAtMs)) {
+      setRateLimitResetMs(resetAtMs);
+      return new RateLimitError(resetAtMs);
+    }
   }
 
-  const resetDate = new Date(Number(reset) * 1000);
-  return `Limite da API atingido. Tenta novamente às ${formatDate(resetDate.toISOString())}.`;
+  const fallbackReset = Date.now() + 60 * 60 * 1000;
+  setRateLimitResetMs(fallbackReset);
+  return new RateLimitError(fallbackReset);
 }
 
-async function fetchGithubJson(url) {
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json"
-    }
-  });
+async function fetchGithubJson(url, etag) {
+  const lockedUntil = getRateLimitResetMs();
+  if (lockedUntil) {
+    throw new RateLimitError(lockedUntil);
+  }
+
+  const headers = {
+    Accept: "application/vnd.github+json"
+  };
+
+  if (etag) {
+    headers["If-None-Match"] = etag;
+  }
+
+  const response = await fetch(url, { headers });
+  updateRateLimitFromHeaders(response);
+
+  if (response.status === 304) {
+    return {
+      notModified: true,
+      data: null,
+      etag
+    };
+  }
+
+  if (response.status === 403) {
+    throw createRateLimitError(response);
+  }
+
+  if (response.status === 404) {
+    throw new Error(`Usuario '${username}' nao encontrado.`);
+  }
 
   if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error(`Usuário '${username}' não encontrado.`);
-    }
-
-    if (response.status === 403) {
-      throw new Error(rateLimitMessage(response));
-    }
-
     throw new Error(`Erro HTTP ${response.status} ao consultar GitHub.`);
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return {
+    notModified: false,
+    data,
+    etag: response.headers.get("etag") || null
+  };
 }
 
-async function fetchProfile() {
-  el.status.textContent = "Consultando API GitHub...";
+function applyCachedData(profileEntry, reposEntry) {
+  if (profileEntry?.data) {
+    updateUI(profileEntry.data);
+  }
+
+  if (Array.isArray(reposEntry?.data)) {
+    renderRepoCards(reposEntry.data);
+    renderSkillsCards(reposEntry.data);
+  }
+}
+
+async function refreshDashboard() {
+  const profileEntry = readCacheEntry(CACHE_KEYS.profile);
+  const reposEntry = readCacheEntry(CACHE_KEYS.repos);
+
+  applyCachedData(profileEntry, reposEntry);
+
+  const needProfileFetch = !isCacheFresh(profileEntry, profileCacheTtlMs);
+  const needReposFetch = !isCacheFresh(reposEntry, reposCacheTtlMs);
+
+  if (!needProfileFetch && !needReposFetch) {
+    el.status.textContent = "Online (cache local)";
+    return;
+  }
+
+  el.status.textContent = "Atualizando dados do GitHub...";
+
+  let profileData = profileEntry?.data ?? null;
+  let reposData = reposEntry?.data ?? [];
 
   try {
-    const profileUrl = `https://api.github.com/users/${encodeURIComponent(username)}`;
-    const reposUrl = `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`;
-    const [profile, repos] = await Promise.all([fetchGithubJson(profileUrl), fetchGithubJson(reposUrl)]);
+    if (needProfileFetch) {
+      const profileUrl = `https://api.github.com/users/${encodeURIComponent(username)}`;
+      const profileResponse = await fetchGithubJson(profileUrl, profileEntry?.etag);
 
-    updateUI(profile);
-    renderRepoCards(repos);
-    renderSkillsCards(repos);
+      if (profileResponse.notModified) {
+        touchCacheEntry(CACHE_KEYS.profile);
+      } else if (profileResponse.data) {
+        profileData = profileResponse.data;
+        writeCacheEntry(CACHE_KEYS.profile, profileData, profileResponse.etag);
+      }
+    }
+
+    if (needReposFetch) {
+      const reposUrl = `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=100`;
+      const reposResponse = await fetchGithubJson(reposUrl, reposEntry?.etag);
+
+      if (reposResponse.notModified) {
+        touchCacheEntry(CACHE_KEYS.repos);
+      } else if (reposResponse.data) {
+        reposData = reposResponse.data;
+        writeCacheEntry(CACHE_KEYS.repos, reposData, reposResponse.etag);
+      }
+    }
+
+    if (profileData) {
+      updateUI(profileData);
+    }
+
+    if (Array.isArray(reposData)) {
+      renderRepoCards(reposData);
+      renderSkillsCards(reposData);
+    }
+
     el.status.textContent = "Online";
   } catch (error) {
+    if (error instanceof RateLimitError) {
+      const resetText = formatDate(error.resetAtMs);
+      const hasCache = Boolean(profileEntry?.data) || Boolean(reposEntry?.data);
+
+      if (hasCache) {
+        el.status.textContent = `Rate limit. Exibindo cache ate ${resetText}`;
+      } else {
+        el.status.textContent = "Erro";
+        el.bio.textContent = `Limite da API atingido. Tente novamente as ${resetText}.`;
+      }
+
+      return;
+    }
+
     el.status.textContent = "Erro";
     el.bio.textContent = error.message;
     el.repoCountNote.textContent = "Falha ao carregar";
@@ -455,5 +654,5 @@ async function fetchProfile() {
   }
 }
 
-fetchProfile();
-setInterval(fetchProfile, refreshMs);
+refreshDashboard();
+setInterval(refreshDashboard, refreshMs);

@@ -1,4 +1,6 @@
 window.APP_CONFIG = {
   githubUsername: "mikaeldmts",
-  refreshSeconds: 60
+  refreshSeconds: 300,
+  profileCacheMinutes: 15,
+  reposCacheMinutes: 30
 };
