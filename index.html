@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Profile Realtime Dashboard</title>
+    <script>
+      if (window.location.hostname.endsWith("github.io") && window.location.pathname === "/eu") {
+        window.location.replace("/eu/" + window.location.search + window.location.hash);
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="card profile-card">
+        <p class="kicker">Realtime Monitor</p>
+        <h1 id="title">GitHub Profile</h1>
+        <div class="profile-head">
+          <img id="avatar" alt="Avatar do perfil" />
+          <div>
+            <p id="name" class="name">Carregando...</p>
+            <a id="username" href="#" target="_blank" rel="noreferrer">@...</a>
+          </div>
+        </div>
+        <p id="bio" class="bio">Aguardando dados do Firestore...</p>
+      </section>
+
+      <section class="card stats-card">
+        <h2>Indicadores</h2>
+        <div class="grid">
+          <article>
+            <p class="label">Repos públicos</p>
+            <p id="repos" class="value">-</p>
+          </article>
+          <article>
+            <p class="label">Seguidores</p>
+            <p id="followers" class="value">-</p>
+          </article>
+          <article>
+            <p class="label">Seguindo</p>
+            <p id="following" class="value">-</p>
+          </article>
+          <article>
+            <p class="label">Último update GitHub</p>
+            <p id="githubUpdated" class="value small">-</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card footer-card">
+        <p>Status Firestore: <strong id="status">Conectando...</strong></p>
+        <p>Última sincronização: <strong id="syncedAt">-</strong></p>
+      </section>
+    </main>
+
+    <script src="./config.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

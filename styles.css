@@ -1,0 +1,157 @@
+:root {
+  --bg-0: #f3efe4;
+  --bg-1: #e0f2e9;
+  --text: #1a1f18;
+  --muted: #4c5b4d;
+  --card: rgba(255, 255, 255, 0.72);
+  --line: rgba(26, 31, 24, 0.12);
+  --accent: #125a35;
+  --accent-soft: #2b7a52;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(18, 90, 53, 0.2), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(43, 122, 82, 0.2), transparent 35%),
+    linear-gradient(135deg, var(--bg-0), var(--bg-1));
+}
+
+.layout {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  padding: 20px;
+  animation: fadeUp 480ms ease-out both;
+}
+
+.profile-card {
+  animation-delay: 80ms;
+}
+
+.stats-card {
+  animation-delay: 150ms;
+}
+
+.footer-card {
+  animation-delay: 220ms;
+}
+
+.kicker {
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+h1,
+h2 {
+  margin: 0 0 14px;
+}
+
+.profile-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+#avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+#username {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#username:hover {
+  color: var(--accent-soft);
+}
+
+.bio {
+  margin: 16px 0 0;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.grid article {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.label {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.value {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.value.small {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.footer-card p {
+  margin: 6px 0;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .layout {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
