@@ -1,0 +1,17 @@
+{
+  "name": "github-profile-realtime-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5500",
+    "dev:open": "vite --host 127.0.0.1 --port 5500 --open /",
+    "sync:profile": "node ./scripts/sync-profile.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "firebase-admin": "^12.7.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.12"
+  }
+}
