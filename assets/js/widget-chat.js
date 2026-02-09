@@ -77,9 +77,7 @@ class ChatWidget {
                             </form>
                         </div>
 
-                        <div style="text-align: center; padding: 10px; font-size: 11px; color: #999; border-top: 1px solid #e0e0e0;">
-                            <a href="login.html" style="color: #667eea; text-decoration: none;">Entrar como admin</a>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -347,16 +345,64 @@ class ChatWidget {
 
                 @media (max-width: 600px) {
                     .chat-widget {
-                        width: 100vw;
-                        height: 100vh;
-                        bottom: 0;
-                        right: 0;
-                        border-radius: 0;
+                        width: calc(100vw - 20px);
+                        height: 70vh;
+                        bottom: 80px;
+                        right: 10px;
+                        left: 10px;
+                        border-radius: 12px;
+                        max-height: 500px;
                     }
 
                     .chat-widget-button {
-                        bottom: 30px;
-                        right: 30px;
+                        bottom: 20px;
+                        right: 20px;
+                    }
+
+                    .chat-widget-header {
+                        padding: 15px;
+                    }
+
+                    .chat-widget-header h3 {
+                        font-size: 14px;
+                    }
+
+                    .chat-widget-header p {
+                        font-size: 11px;
+                    }
+
+                    .chat-widget-messages {
+                        padding: 15px;
+                        max-height: 300px;
+                    }
+
+                    .chat-widget-message {
+                        font-size: 12px;
+                        max-width: 90%;
+                        padding: 10px 12px;
+                    }
+
+                    .form-group {
+                        margin-bottom: 10px;
+                    }
+
+                    #chat-name,
+                    #chat-message {
+                        font-size: 14px;
+                        padding: 8px;
+                    }
+
+                    #chat-message {
+                        min-height: 50px;
+                    }
+
+                    .btn-send {
+                        font-size: 12px;
+                        padding: 8px;
+                    }
+
+                    small {
+                        font-size: 10px;
                     }
                 }
             </style>
@@ -424,18 +470,23 @@ class ChatWidget {
         const result = await this.chatManager.sendMessage(nome, mensagem);
 
         if (result.success) {
+            // Guardar chat_id e nome para carregar respostas depois
+            localStorage.setItem('current_chat_id', result.chatId);
+            localStorage.setItem('current_chat_name', nome);
+
             // Adicionar mensagem ao widget
             this.addMessageToWidget(mensagem, 'user');
 
-            // Limpar formulário
-            document.getElementById('chat-form').reset();
+            // Limpar formulário completamente
+            document.getElementById('chat-name').value = '';
+            document.getElementById('chat-message').value = '';
             document.getElementById('char-count').textContent = '0/500';
 
             statusDiv.textContent = '✓ Mensagem enviada! Responderei em breve.';
             statusDiv.style.color = '#4caf50';
 
-            // Mostrar badge de respostas quando houver respostas
-            this.loadResponses();
+            // Carregar respostas
+            this.loadResponses(nome);
 
             setTimeout(() => {
                 statusDiv.textContent = '';
@@ -449,18 +500,41 @@ class ChatWidget {
         submitBtn.disabled = false;
     }
 
-    addMessageToWidget(text, type) {
+    addMessageToWidget(text, type, messageId = null) {
         const messagesDiv = document.getElementById('chat-widget-messages');
         const msgElement = document.createElement('div');
         msgElement.className = `chat-widget-message ${type}`;
         msgElement.textContent = text;
+        if (messageId) {
+            msgElement.setAttribute('data-msg-id', messageId);
+        }
         messagesDiv.appendChild(msgElement);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
-    loadResponses() {
-        // Aqui você pode carregar respostas do usuário se necessário
-        // Por enquanto, vamos deixar simples
+    loadResponses(nome) {
+        // Carregar respostas do admin para este visitante
+        if (!nome) {
+            nome = localStorage.getItem('current_chat_name');
+        }
+
+        if (nome) {
+            const unsubscribe = this.chatManager.onChatsLoad((chats) => {
+                // Encontrar chats do visitante atual
+                const userChats = chats.filter(chat => chat.nome.toLowerCase() === nome.toLowerCase());
+
+                userChats.forEach(chat => {
+                    this.chatManager.onChatMessagesLoad(chat.chatId, (messages) => {
+                        // Mostrar apenas respostas do admin
+                        messages.forEach(msg => {
+                            if (msg.resposta && msg.respondido && !document.querySelector(`[data-msg-id="${msg.id}"]`)) {
+                                this.addMessageToWidget(msg.resposta, 'admin', msg.id);
+                            }
+                        });
+                    });
+                });
+            });
+        }
     }
 }
 

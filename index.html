@@ -115,5 +115,57 @@
     
     <!-- Chat Widget -->
     <script type="module" src="./assets/js/widget-chat.js"></script>
+
+    <!-- Admin Footer Button -->
+    <style>
+        .admin-footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 12px;
+        }
+
+        .admin-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            font-weight: 500;
+        }
+
+        .admin-footer a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .admin-footer i {
+            font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-footer {
+                bottom: 120px;
+                left: 10px;
+            }
+
+            .admin-footer a {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+
+    <div class="admin-footer">
+        <a href="login.html" title="Painel de administrador">
+            <i class="fas fa-lock"></i>
+            <span>Admin</span>
+        </a>
+    </div>
   </body>
 </html>
