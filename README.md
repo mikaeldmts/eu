@@ -1,6 +1,6 @@
 # GitHub Profile Realtime Dashboard
 
-Dashboard local (sem workflow) com Firestore em tempo real.
+Dashboard local com dados diretos da API pública do GitHub (sem Firebase para exibição).
 
 ## Como rodar localmente
 1. Instale dependências:
@@ -11,14 +11,13 @@ Dashboard local (sem workflow) com Firestore em tempo real.
 3. Abra:
    - `http://127.0.0.1:5500`
 
-## Configuração Firebase (frontend)
-O arquivo `config.js` já está preenchido com seu projeto Firebase.
+## Configuração do dashboard
+Edite `config.js`:
+- `githubUsername`: usuário alvo do GitHub
+- `refreshSeconds`: intervalo de atualização (ex.: 60)
 
-## Regras do Firestore
-Cole as regras de `FIRESTORE_RULES_PARA_COLAR.txt` no Firebase Console:
-- Firestore Database > Rules > Publish
-
-## Sincronizar perfil GitHub para o Firestore (manual, local)
+## (Opcional) Sincronizar perfil para Firestore
+Se quiser voltar ao fluxo com Firestore no futuro, o script ainda existe:
 1. Copie `.env.example` para `.env.local`.
 2. Preencha no `.env.local`:
    - `GH_USERNAME` (ex.: `mikaeldmts`)

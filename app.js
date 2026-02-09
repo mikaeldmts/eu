@@ -1,19 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {
-  doc,
-  getFirestore,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-
-const config = window.APP_CONFIG;
-
-if (!config?.firebaseConfig || !config?.firestorePath) {
-  throw new Error("Configuração ausente. Preencha config.js.");
-}
-
-const app = initializeApp(config.firebaseConfig);
-const db = getFirestore(app);
-const profileRef = doc(db, config.firestorePath);
+const config = window.APP_CONFIG ?? {};
+const username = config.githubUsername || "mikaeldmts";
+const refreshSeconds = Number(config.refreshSeconds ?? 60);
+const refreshMs = Number.isFinite(refreshSeconds) && refreshSeconds > 0 ? refreshSeconds * 1000 : 60000;
 
 const el = {
   title: document.getElementById("title"),
@@ -32,8 +20,7 @@ const el = {
 function formatDate(value) {
   if (!value) return "-";
 
-  const date = typeof value?.toDate === "function" ? value.toDate() : new Date(value);
-
+  const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "-";
 
   return new Intl.DateTimeFormat("pt-BR", {
@@ -42,33 +29,64 @@ function formatDate(value) {
   }).format(date);
 }
 
-function updateUI(data) {
-  el.title.textContent = `GitHub Profile: ${data.login ?? config.githubUsername}`;
-  el.avatar.src = data.avatarUrl ?? "";
-  el.name.textContent = data.name ?? "Sem nome";
-  el.username.textContent = `@${data.login ?? config.githubUsername}`;
-  el.username.href = data.htmlUrl ?? `https://github.com/${config.githubUsername}`;
-  el.bio.textContent = data.bio ?? "Sem bio informada.";
-  el.repos.textContent = String(data.publicRepos ?? 0);
-  el.followers.textContent = String(data.followers ?? 0);
-  el.following.textContent = String(data.following ?? 0);
-  el.githubUpdated.textContent = formatDate(data.githubUpdatedAt);
-  el.syncedAt.textContent = formatDate(data.syncedAt);
+function updateUI(profile) {
+  el.title.textContent = `GitHub Profile: ${profile.login}`;
+  el.avatar.src = profile.avatar_url || "";
+  el.avatar.alt = `Avatar de ${profile.login}`;
+  el.name.textContent = profile.name || "Sem nome";
+  el.username.textContent = `@${profile.login}`;
+  el.username.href = profile.html_url || `https://github.com/${username}`;
+  el.bio.textContent = profile.bio || "Sem bio informada.";
+  el.repos.textContent = String(profile.public_repos ?? 0);
+  el.followers.textContent = String(profile.followers ?? 0);
+  el.following.textContent = String(profile.following ?? 0);
+  el.githubUpdated.textContent = formatDate(profile.updated_at);
+  el.syncedAt.textContent = formatDate(new Date().toISOString());
 }
 
-onSnapshot(
-  profileRef,
-  (snapshot) => {
-    if (!snapshot.exists()) {
-      el.status.textContent = "Aguardando primeira sincronização...";
-      return;
+function rateLimitMessage(response) {
+  const remaining = response.headers.get("x-ratelimit-remaining");
+  const reset = response.headers.get("x-ratelimit-reset");
+
+  if (remaining !== "0" || !reset) {
+    return "Falha ao buscar dados da API.";
+  }
+
+  const resetDate = new Date(Number(reset) * 1000);
+  return `Limite da API atingido. Tenta novamente às ${formatDate(resetDate.toISOString())}.`;
+}
+
+async function fetchProfile() {
+  el.status.textContent = "Consultando API GitHub...";
+
+  try {
+    const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, {
+      headers: {
+        Accept: "application/vnd.github+json"
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Usuário '${username}' não encontrado.`);
+      }
+
+      if (response.status === 403) {
+        throw new Error(rateLimitMessage(response));
+      }
+
+      throw new Error(`Erro HTTP ${response.status} ao consultar GitHub.`);
     }
 
-    updateUI(snapshot.data());
+    const profile = await response.json();
+    updateUI(profile);
     el.status.textContent = "Online";
-  },
-  (error) => {
+  } catch (error) {
     el.status.textContent = "Erro";
-    console.error("Erro Firestore:", error);
+    el.bio.textContent = error.message;
+    console.error("Erro API GitHub:", error);
   }
-);
+}
+
+fetchProfile();
+setInterval(fetchProfile, refreshMs);
