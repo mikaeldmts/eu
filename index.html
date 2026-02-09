@@ -110,71 +110,19 @@
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <a class="admin-footer-link" href="login.html" title="Painel de administrador">
+          <i class="fas fa-lock"></i>
+          <span>Admin</span>
+        </a>
+      </div>
+    </footer>
+
     <script src="./config.js"></script>
     <script type="module" src="./app.js"></script>
     
     <!-- Chat Widget -->
     <script type="module" src="./assets/js/widget-chat.js"></script>
-
-    <!-- Admin Footer Button -->
-    <style>
-        .admin-footer {
-            position: fixed !important;
-            bottom: 20px !important;
-            left: 20px !important;
-            z-index: 99 !important;
-            font-size: 12px !important;
-        }
-
-        .admin-footer a {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 14px;
-            background: rgba(102, 126, 234, 0.15);
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(102, 126, 234, 0.25);
-            font-weight: 500;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .admin-footer a:hover {
-            background: rgba(102, 126, 234, 0.25);
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-
-        .admin-footer i {
-            font-size: 12px;
-        }
-
-        @media (max-width: 600px) {
-            .admin-footer {
-                bottom: 130px !important;
-                left: 15px !important;
-            }
-
-            .admin-footer a {
-                padding: 8px 12px;
-                font-size: 11px;
-            }
-
-            .admin-footer i {
-                font-size: 11px;
-            }
-        }
-    </style>
-
-    <div class="admin-footer">
-        <a href="login.html" title="Painel de administrador">
-            <i class="fas fa-lock"></i>
-            <span>Admin</span>
-        </a>
-    </div>
   </body>
 </html>

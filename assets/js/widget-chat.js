@@ -11,6 +11,7 @@ class ChatWidget {
     init() {
         this.createWidgetHTML();
         this.attachEventListeners();
+        this.applyPersistedSubmissionState();
         this.loadResponses();
     }
 
@@ -75,6 +76,10 @@ class ChatWidget {
 
                                 <div id="chat-status" style="margin-top: 10px; text-align: center; font-size: 12px;"></div>
                             </form>
+                            <div id="chat-after-submit" class="chat-widget-after" style="display: none;">
+                                <p class="chat-widget-after-title">Mensagem enviada</p>
+                                <p class="chat-widget-after-text">Obrigado! Assim que eu responder, a mensagem vai aparecer aqui.</p>
+                            </div>
                         </div>
 
 
@@ -343,6 +348,28 @@ class ChatWidget {
                     font-size: 12px;
                 }
 
+                .chat-widget-after {
+                    border: 1px solid #e0e0e0;
+                    background: #fff;
+                    border-radius: 10px;
+                    padding: 12px;
+                    text-align: center;
+                }
+
+                .chat-widget-after-title {
+                    margin: 0 0 6px 0;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #2e7d32;
+                }
+
+                .chat-widget-after-text {
+                    margin: 0;
+                    font-size: 12px;
+                    color: #555;
+                    line-height: 1.4;
+                }
+
                 @media (max-width: 600px) {
                     .chat-widget {
                         width: calc(100vw - 20px);
@@ -443,7 +470,9 @@ class ChatWidget {
     openWidget() {
         document.getElementById('chat-widget').classList.add('open');
         this.isOpen = true;
-        document.getElementById('chat-name').focus();
+        if (localStorage.getItem('chat_widget_submitted') !== '1') {
+            document.getElementById('chat-name').focus();
+        }
     }
 
     closeWidget() {
@@ -462,7 +491,7 @@ class ChatWidget {
         const submitBtn = document.querySelector('.btn-send');
 
         if (!nome || !mensagem) {
-            statusDiv.textContent = '❌ Preenchha todos os campos';
+            statusDiv.textContent = '❌ Preencha todos os campos';
             return;
         }
 
@@ -475,6 +504,7 @@ class ChatWidget {
             // Guardar chat_id e nome para carregar respostas depois
             localStorage.setItem('current_chat_id', result.chatId);
             localStorage.setItem('current_chat_name', nome);
+            localStorage.setItem('chat_widget_submitted', '1');
 
             // Adicionar mensagem ao widget
             this.addMessageToWidget(mensagem, 'user');
@@ -496,15 +526,15 @@ class ChatWidget {
             // Carregar respostas
             this.loadResponses(nome);
 
+            // Esconder o formulario apos o primeiro envio (comportamento de "deixar recado")
+            this.setSubmissionUI(true);
+
             setTimeout(() => {
                 statusDiv.textContent = '';
                 statusDiv.style.color = '#667eea';
             }, 3000);
 
-            // Focar no campo de nome para próxima mensagem
-            setTimeout(() => {
-                nomeInput.focus();
-            }, 500);
+            // Evitar focar em inputs que ficaram ocultos
         } else {
             statusDiv.textContent = `❌ Erro: ${result.error}`;
             statusDiv.style.color = '#f44336';
@@ -548,6 +578,20 @@ class ChatWidget {
                 });
             });
         }
+    }
+
+    applyPersistedSubmissionState() {
+        if (localStorage.getItem('chat_widget_submitted') === '1') {
+            this.setSubmissionUI(true);
+        }
+    }
+
+    setSubmissionUI(isSubmitted) {
+        const form = document.getElementById('chat-form');
+        const after = document.getElementById('chat-after-submit');
+        if (!form || !after) return;
+        form.style.display = isSubmitted ? 'none' : '';
+        after.style.display = isSubmitted ? 'block' : 'none';
     }
 }
 

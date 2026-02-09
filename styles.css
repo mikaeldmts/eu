@@ -32,6 +32,43 @@ body {
   gap: 18px;
 }
 
+.site-footer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px 32px;
+}
+
+.site-footer-inner {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.admin-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-soft);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.admin-footer-link:hover {
+  transform: translateY(-2px);
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(125, 211, 252, 0.55);
+  box-shadow: 0 10px 22px rgba(3, 8, 20, 0.5);
+}
+
+.admin-footer-link i {
+  font-size: 0.9rem;
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -488,6 +525,10 @@ h2 {
 @media (max-width: 640px) {
   .layout {
     padding: 16px;
+  }
+
+  .site-footer {
+    padding: 0 16px 26px;
   }
 
   .hero-top {
