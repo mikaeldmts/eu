@@ -43,10 +43,10 @@ export class ChatManager {
     }
 
     // Enviar mensagem do visitante
-    async sendMessage(nome, mensagem) {
+    async sendMessage(nome, mensagem, chatIdOverride = null) {
         try {
             // Gerar chat_id único (hash do nome + timestamp)
-            const chatId = `${nome.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+            const chatId = chatIdOverride || `${nome.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
             
             const docRef = await addDoc(collection(db, 'mensagens'), {
                 chat_id: chatId,
