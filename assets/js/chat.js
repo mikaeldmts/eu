@@ -43,13 +43,13 @@ export class ChatManager {
     }
 
     // Enviar mensagem do visitante
-    async sendMessage(nome, mensagem) {
+    async sendMessage(nome, mensagem, chatId = null) {
         try {
             // Gerar chat_id único (hash do nome + timestamp)
-            const chatId = `${nome.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+            const resolvedChatId = chatId ?? `${nome.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
             
             const docRef = await addDoc(collection(db, 'mensagens'), {
-                chat_id: chatId,
+                chat_id: resolvedChatId,
                 nome: nome,
                 mensagem: mensagem,
                 hora: serverTimestamp(),
@@ -62,7 +62,7 @@ export class ChatManager {
             return {
                 success: true,
                 messageId: docRef.id,
-                chatId: chatId
+                chatId: resolvedChatId
             };
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
