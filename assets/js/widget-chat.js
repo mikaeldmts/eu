@@ -12,6 +12,7 @@ class ChatWidget {
         this.createWidgetHTML();
         this.attachEventListeners();
         this.applyPersistedSubmissionState();
+        this.prefillUserName();
         this.loadResponses();
     }
 
@@ -490,6 +491,10 @@ class ChatWidget {
         const mensagem = mensagemInput.value.trim();
         const statusDiv = document.getElementById('chat-status');
         const submitBtn = document.querySelector('.btn-send');
+        const storedChatId = localStorage.getItem('current_chat_id');
+        const storedName = localStorage.getItem('current_chat_name');
+        const shouldReuseChatId = storedChatId && storedName && storedName.toLowerCase() === nome.toLowerCase();
+        const chatId = shouldReuseChatId ? storedChatId : null;
 
         if (!nome || !mensagem) {
             statusDiv.textContent = '❌ Preencha todos os campos';
@@ -499,7 +504,7 @@ class ChatWidget {
         submitBtn.disabled = true;
         statusDiv.textContent = '⏳ Enviando...';
 
-        const result = await this.chatManager.sendMessage(nome, mensagem);
+        const result = await this.chatManager.sendMessage(nome, mensagem, chatId);
 
         if (result.success) {
             // Guardar chat_id e nome para carregar respostas depois
@@ -569,12 +574,18 @@ class ChatWidget {
 
                 userChats.forEach(chat => {
                     this.chatManager.onChatMessagesLoad(chat.chatId, (messages) => {
+                        let hasAdminResponse = false;
                         // Mostrar apenas respostas do admin
                         messages.forEach(msg => {
                             if (msg.resposta && msg.respondido && !document.querySelector(`[data-msg-id="${msg.id}"]`)) {
                                 this.addMessageToWidget(msg.resposta, 'admin', msg.id);
+                                hasAdminResponse = true;
                             }
                         });
+                        if (hasAdminResponse) {
+                            localStorage.removeItem('chat_widget_submitted');
+                            this.setSubmissionUI(false);
+                        }
                     });
                 });
             });
@@ -584,6 +595,14 @@ class ChatWidget {
     applyPersistedSubmissionState() {
         if (localStorage.getItem('chat_widget_submitted') === '1') {
             this.setSubmissionUI(true);
+        }
+    }
+
+    prefillUserName() {
+        const nomeInput = document.getElementById('chat-name');
+        const storedName = localStorage.getItem('current_chat_name');
+        if (nomeInput && storedName && !nomeInput.value) {
+            nomeInput.value = storedName;
         }
     }
 
