@@ -490,6 +490,11 @@ class ChatWidget {
         const mensagem = mensagemInput.value.trim();
         const statusDiv = document.getElementById('chat-status');
         const submitBtn = document.querySelector('.btn-send');
+        const storedChatId = localStorage.getItem('current_chat_id');
+        const storedName = localStorage.getItem('current_chat_name');
+        const reuseChatId = storedChatId && storedName && storedName.toLowerCase() === nome.toLowerCase()
+            ? storedChatId
+            : null;
 
         if (!nome || !mensagem) {
             statusDiv.textContent = '❌ Preencha todos os campos';
@@ -499,7 +504,7 @@ class ChatWidget {
         submitBtn.disabled = true;
         statusDiv.textContent = '⏳ Enviando...';
 
-        const result = await this.chatManager.sendMessage(nome, mensagem);
+        const result = await this.chatManager.sendMessage(nome, mensagem, reuseChatId);
 
         if (result.success) {
             // Guardar chat_id e nome para carregar respostas depois
@@ -527,7 +532,7 @@ class ChatWidget {
             // Carregar respostas
             this.loadResponses(nome);
 
-            // Esconder o formulario apos o primeiro envio (comportamento de "deixar recado")
+            // Esconder o formulario enquanto aguarda resposta
             this.setSubmissionUI(true);
 
             setTimeout(() => {
@@ -573,6 +578,8 @@ class ChatWidget {
                         messages.forEach(msg => {
                             if (msg.resposta && msg.respondido && !document.querySelector(`[data-msg-id="${msg.id}"]`)) {
                                 this.addMessageToWidget(msg.resposta, 'admin', msg.id);
+                                this.setSubmissionUI(false);
+                                localStorage.removeItem('chat_widget_submitted');
                             }
                         });
                     });
@@ -593,6 +600,13 @@ class ChatWidget {
         if (!form || !after) return;
         form.style.display = isSubmitted ? 'none' : '';
         after.style.display = isSubmitted ? 'block' : 'none';
+        if (!isSubmitted) {
+            const nomeInput = document.getElementById('chat-name');
+            const storedName = localStorage.getItem('current_chat_name');
+            if (nomeInput && storedName && !nomeInput.value) {
+                nomeInput.value = storedName;
+            }
+        }
     }
 }
 
